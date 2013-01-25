@@ -3,42 +3,37 @@ package com.danmidwood.danimals;
 /**
  * The test class com.danmidwood.danimals.PopulationPanelTest.
  *
- * @author  (your name)
+ * @author (your name)
  * @version (a version number or a date)
  */
-public class PopulationPanelTest extends junit.framework.TestCase
-{
+public class PopulationPanelTest extends junit.framework.TestCase {
     /**
      * Default constructor for test class com.danmidwood.danimals.PopulationPanelTest
      */
-    public PopulationPanelTest()
-    {
+    public PopulationPanelTest() {
     }
 
     /**
      * Sets up the test fixture.
-     *
+     * <p/>
      * Called before every test case method.
      */
-    protected void setUp()
-    {
+    protected void setUp() {
     }
 
     /**
      * Tears down the test fixture.
-     *
+     * <p/>
      * Called after every test case method.
      */
-    protected void tearDown()
-    {
+    protected void tearDown() {
     }
 
-    public void testPopulationPanel()
-    {
+    public void testPopulationPanel() {
         javax.swing.JFrame f = new javax.swing.JFrame();
         f.getContentPane().setLayout(new java.awt.BorderLayout());
         final PopulationPanel pp = new PopulationPanel();
-        Population pop = new Population(10,10);
+        Population pop = new Population(10, 10);
         Environment env = new Environment();
         env.setMutateRate(0.5);
         env.setPopulation(pop);
@@ -49,14 +44,14 @@ public class PopulationPanelTest extends junit.framework.TestCase
         f.getContentPane().add(jb, java.awt.BorderLayout.NORTH);
 
         jb.addActionListener(
-            new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent ae) {
-                    BitGrid bg = pp.getBitGrid();
+                new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        BitGrid bg = pp.getBitGrid();
 //                     bg.setRowHeight(100);
 //                     bg.setColWidth(100);
-                }
-            });
-        f.setSize(500,500);
+                    }
+                });
+        f.setSize(500, 500);
         f.show();
     }
 }

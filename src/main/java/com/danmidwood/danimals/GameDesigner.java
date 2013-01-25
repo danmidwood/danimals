@@ -1,23 +1,24 @@
 package com.danmidwood.danimals;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Write a description of class com.danmidwood.danimals.GameDesigner here.
- * 
- * @author (your name) 
+ *
+ * @author (your name)
  * @version (a version number or a date)
  */
-public class GameDesigner extends JFrame
-{
+public class GameDesigner extends JFrame {
     ActionListener listen;
     Game game;
     java.util.TreeMap resRefs = new java.util.TreeMap();
     static public String READY = "The game is now ready";
-    
+
     public GameDesigner(Game g) {
-        super("Editing " +g.getName());
-        setSize(100,400);
+        super("Editing " + g.getName());
+        setSize(100, 400);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.game = g;
         java.util.Set keys = game.keySet();
@@ -30,35 +31,43 @@ public class GameDesigner extends JFrame
         bottom.add(confirm);
         getContentPane().add(bottom);
         confirm.addActionListener(
-            new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent ae) {
-                    java.util.Iterator allRes = resRefs.keySet().iterator();
-                    while (allRes.hasNext()) {
-                        Object thisKey = allRes.next();
-                        ResultPanel thisResPan = (ResultPanel)resRefs.get(thisKey);
-                        Result thisRes = thisResPan.getResult();
-                        try {
-                            game.addResult(thisKey, thisRes);
-                        } catch (Exception e) {System.out.println(e.toString()); }
+                new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent ae) {
+                        java.util.Iterator allRes = resRefs.keySet().iterator();
+                        while (allRes.hasNext()) {
+                            Object thisKey = allRes.next();
+                            ResultPanel thisResPan = (ResultPanel) resRefs.get(thisKey);
+                            Result thisRes = thisResPan.getResult();
+                            try {
+                                game.addResult(thisKey, thisRes);
+                            } catch (Exception e) {
+                                System.out.println(e.toString());
+                            }
+                        }
+                        if (listen != null)
+                            listen.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, READY));
+
                     }
-                    if (listen != null) listen.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, READY));
-                    
-                }
-            });
+                });
     }
-    
-    public void addActionListener(ActionListener al) { listen = al; }
-    public void removeActionListener() { listen = null; }
-    
-    
+
+    public void addActionListener(ActionListener al) {
+        listen = al;
+    }
+
+    public void removeActionListener() {
+        listen = null;
+    }
+
+
     public void addPanel(Object key) {
         String title = game.getChoiceNames(key.toString()).toString();
-        Result newRes = (Result)game.get(key);
+        Result newRes = (Result) game.get(key);
         if (newRes == null) newRes = new Result();
         ResultPanel newPane = new ResultPanel(newRes, title);
-        resRefs.put(key,newPane);
+        resRefs.put(key, newPane);
         getContentPane().add(newPane);
         getContentPane().add(Box.createVerticalStrut(10));
-        
+
     }
 }

@@ -2,14 +2,14 @@ package com.danmidwood.danimals;
 
 import javax.swing.*;
 import java.awt.*;
+
 /**
  * Write a description of class com.danmidwood.danimals.RuleParserPanel here.
- * 
- * @author (your name) 
+ *
+ * @author (your name)
  * @version (a version number or a date)
  */
-public class RuleParserPanel extends JPanel implements java.awt.event.ActionListener
-{
+public class RuleParserPanel extends JPanel implements java.awt.event.ActionListener {
     RuleParser rp;
     JList rules;
     JComboBox choices;
@@ -22,18 +22,18 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
     JButton editRule;
     JButton backButton;
     JButton addClause;
-//     JButton removeClause;
+    //     JButton removeClause;
     Rule currentRule = null;
-    
-    
+
+
     CardLayout ruleOrClause = new CardLayout();
-    
-    
+
+
     public RuleParserPanel(RuleParser rp) {
         this.rp = rp;
         setLayout(ruleOrClause);
         // Create panel for inputs
-        JPanel inputs = new JPanel(new GridLayout(3,1));
+        JPanel inputs = new JPanel(new GridLayout(3, 1));
         inputs.setBorder(new javax.swing.border.TitledBorder("Parse rules"));
         // The choices available for the bit strings
         Object[] choicesToAdd = rp.getChoices();
@@ -49,12 +49,12 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
         JPanel fromBitHolder = new JPanel();
         fromBitHolder.setBorder(new javax.swing.border.TitledBorder("From bit"));
         fromBitHolder.add(from);
-        SpinnerModel numModel2 = new SpinnerNumberModel(1, ((Integer)numModel.getNextValue()).intValue(), 6400, 1);
+        SpinnerModel numModel2 = new SpinnerNumberModel(1, ((Integer) numModel.getNextValue()).intValue(), 6400, 1);
         to = new JSpinner(numModel2);
         JPanel toBitHolder = new JPanel();
         toBitHolder.setBorder(new javax.swing.border.TitledBorder("To bit"));
         toBitHolder.add(to);
-        JPanel grid = new JPanel(new GridLayout(1,2));
+        JPanel grid = new JPanel(new GridLayout(1, 2));
         grid.add(fromBitHolder);
         grid.add(toBitHolder);
         inputs.add(grid);
@@ -69,16 +69,16 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
         ruleButtons.add(removeRule);
         ruleButtons.add(editRule);
         inputs.add(ruleButtons);
-        
+
         Box ruleBox = Box.createVerticalBox();
         ruleBox.add(inputs);
         rules = new JList(rp);
         ruleBox.add(new JScrollPane(rules));
         add(ruleBox, "Rules");
-        
+
         setupClausePanel();
     }
-    
+
     private void setupClausePanel() {
         Box clauseBox = Box.createVerticalBox();
         JPanel inputs = new JPanel();
@@ -93,7 +93,7 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
         oppChoice = new JComboBox(rp.getChoices());
         opponentChoiceHolder.add(oppChoice);
 
-        inputs.setLayout(new GridLayout(2,2,2,2));
+        inputs.setLayout(new GridLayout(2, 2, 2, 2));
         inputs.add(howFarBackHolder);
         inputs.add(opponentChoiceHolder);
         addClause = new JButton("Add");
@@ -105,9 +105,8 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
         clauseBox.add(inputs);
         add(clauseBox, "Clauses");
     }
-    
 
-    
+
     public void actionPerformed(java.awt.event.ActionEvent ae) {
         Object src = ae.getSource();
         if (src instanceof JButton) {
@@ -115,52 +114,56 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
             if (src == removeRule) removeRule();
             if (src == editRule) editRule();
             if (src == addClause) addClause();
-            if (src == backButton) ruleOrClause.show(this,"Rules");
-            
-            
-        } else if (src instanceof JComboBox)
-            { rp.setCurrentChoice(choices.getSelectedIndex()); rules.setModel(rp); }
+            if (src == backButton) ruleOrClause.show(this, "Rules");
+
+
+        } else if (src instanceof JComboBox) {
+            rp.setCurrentChoice(choices.getSelectedIndex());
+            rules.setModel(rp);
+        }
     }
-    
+
     private void addRule() {
         int outcome = choices.getSelectedIndex();
-        int fromIndex = ((Integer)from.getValue()).intValue();
-        int toIndex = ((Integer)to.getValue()).intValue();
-        try { rp.addRule(outcome, fromIndex, toIndex); } catch (Exception e) { System.out.println(e.toString()); }
+        int fromIndex = ((Integer) from.getValue()).intValue();
+        int toIndex = ((Integer) to.getValue()).intValue();
+        try {
+            rp.addRule(outcome, fromIndex, toIndex);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
-    
-    
+
+
     private void removeRule() {
         int outcome = choices.getSelectedIndex();
         try {
             rp.removeRule(outcome, rules.getSelectedIndex());
-        } catch (Exception e) { System.out.println(e.toString()); }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
-    
-    
+
+
     private void editRule() {
-        setNewCurrentRule( (Rule)rules.getSelectedValue());
+        setNewCurrentRule((Rule) rules.getSelectedValue());
         ruleOrClause.show(this, "Clauses");
     }
-    
-    private void setNewCurrentRule( Rule curRule) {
+
+    private void setNewCurrentRule(Rule curRule) {
         currentRule = curRule;
     }
-    
-    
+
+
     private void addClause() {
-        int back = ((Integer)howFarBack.getValue()).intValue();
+        int back = ((Integer) howFarBack.getValue()).intValue();
         int oppChose = oppChoice.getSelectedIndex();
-        try { 
+        try {
             rp.addClause(currentRule, back, oppChose);
-        } catch (Exception e) { System.out.println(e.toString()); }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
-    
-    
 
-    
-    
-
-    
 
 }
