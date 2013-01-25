@@ -46,7 +46,7 @@ public class SelectionPanel extends JPanel implements ActionListener {
         scb.setModel(moddy);
     }
 
-    public void setModel(Object[] obs) {
+    public void setModel(Class[] obs) {
         scb.setModel(new javax.swing.DefaultComboBoxModel(obs));
     }
 

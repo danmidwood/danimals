@@ -73,7 +73,7 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
         EnvironmentPanel envPane = new EnvironmentPanel(env);
         optionsSide.addCard("com.danmidwood.danimals.Environment", envPane);
 
-        Object[] classes = ClassLoader.getClasses(Selection.class, ".");
+        Class[] classes = PopulationMemberSelectors.getSelections();
 
         JPanel fightPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         p1Fight = new SelectionPanel(1);

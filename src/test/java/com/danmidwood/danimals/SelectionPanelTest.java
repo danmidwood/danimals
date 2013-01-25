@@ -43,7 +43,7 @@ public class SelectionPanelTest extends junit.framework.TestCase {
         javax.swing.DefaultComboBoxModel moddy = new javax.swing.DefaultComboBoxModel();
         Class type = Selection.class;
         String dir = ".";
-        Object[] obs = ClassLoader.getClasses(type, dir);
+        Class[] obs = PopulationMemberSelectors.getSelections();
         //         moddy.addElement(com.danmidwood.danimals.Random.class);
 //         moddy.addElement(com.danmidwood.danimals.Roulette.class);
 //         moddy.addElement(String.class);
