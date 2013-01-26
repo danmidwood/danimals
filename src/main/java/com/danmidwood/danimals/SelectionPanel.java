@@ -4,7 +4,6 @@ import com.danmidwood.danimals.selection.Selection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 
 public class SelectionPanel extends JPanel {
@@ -24,7 +23,7 @@ public class SelectionPanel extends JPanel {
         setLayout(new BorderLayout());
         JPanel selectionContainer = new JPanel();
         selectionContainer.setLayout(new BoxLayout(selectionContainer, axis));
-        scb = new SelectionComboBox(new javax.swing.DefaultComboBoxModel(), playerNo);
+        scb = new SelectionComboBox(new DefaultComboBoxModel(), playerNo);
 
         selectionContainer.add(scb);
         showButton(false);
@@ -35,40 +34,21 @@ public class SelectionPanel extends JPanel {
         add(selectionScroll, BorderLayout.CENTER);
     }
 
-    public void setModel(Class[] obs) {
-        scb.setModel(new javax.swing.DefaultComboBoxModel(obs));
+    public void setModel(Selection[] obs) {
+        scb.setModel(new DefaultComboBoxModel(obs));
     }
 
     public boolean isConfigured() {
         return scb.getSelection() != null;
     }
 
-    public java.util.List<Selection> getAllSelections() {
-        ArrayList<Selection> rtn = new ArrayList<Selection>();
-        rtn.add(scb.getSelection());
-
-        rtn.trimToSize();
-        return rtn;
+    private Selection getSelection() {
+        return scb.getSelection();
     }
 
     public Coord select(Population pop) throws Exception {
-        java.util.Iterator it = getAllSelections().iterator();
-        try {
-            Population workingPop = pop;
-            while (it.hasNext()) {
-                Object next = it.next();
-                Selection nextSel = (Selection) next;
-                Object afterSelection = nextSel.select(workingPop);
-                if (afterSelection instanceof Coord) return (Coord) afterSelection;
-                else if (afterSelection instanceof Population) workingPop = (Population) afterSelection;
-                else {
-                    System.out.println("Unexpected " + afterSelection.getClass().getName() + " found during selection");
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error in selection : " + e.getMessage());
-        }
-        throw new Exception("Player " + playerNo + " : Nothing found");
+        return getSelection().select(pop);
+
     }
 
     public void showButton(boolean on) {

@@ -5,10 +5,10 @@ import com.danmidwood.danimals.Coord;
 import com.danmidwood.danimals.Population;
 
 public class Roulette implements Selection {
-    public Object select(Population pop) {
+    public Coord select(Population pop) {
         int totalFitness = pop.totalFitness();
-        int fitnessSoFar = 0;
-        int aRandom = new Double(Math.random() * totalFitness).intValue();
+        double fitnessSoFar = (double) 0;
+        double aRandom = Math.random() * totalFitness;
         for (Coord key : pop.keySet()) {
             //for (int pointIndex=0; pointIndex<allStrings.size(); pointIndex++) {
             BitString thisString = (BitString) pop.get(key);

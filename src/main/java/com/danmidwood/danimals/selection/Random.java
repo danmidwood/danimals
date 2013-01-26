@@ -6,7 +6,7 @@ import com.danmidwood.danimals.Population;
 
 public class Random implements Selection {
 
-    public Object select(Population pop) {
+    public Coord select(Population pop) {
         Coord thisLocation = new Coord(-1, -1);
         Object bitty;
         boolean carryOn = true;

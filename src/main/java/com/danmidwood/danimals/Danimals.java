@@ -1,5 +1,9 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.selection.Random;
+import com.danmidwood.danimals.selection.Roulette;
+import com.danmidwood.danimals.selection.Selection;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -70,18 +74,19 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
 
         JPanel fightPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         p1Fight = new SelectionPanel(1);
-        p1Fight.setModel(classes);
+        Selection[] selections = {new Random(), new Roulette()};
+        p1Fight.setModel(selections);
         p2Fight = new SelectionPanel(2);
-        p2Fight.setModel(classes);
+        p2Fight.setModel(selections);
         fightPanel.add(p1Fight);
         fightPanel.add(p2Fight);
         optionsSide.addCard("Fight Selection", fightPanel);
 
         JPanel reproPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         p1Repro = new SelectionPanel(1);
-        p1Repro.setModel(classes);
+        p1Repro.setModel(selections);
         p2Repro = new SelectionPanel(2);
-        p2Repro.setModel(classes);
+        p2Repro.setModel(selections);
         reproPanel.add(p1Repro);
         reproPanel.add(p2Repro);
         optionsSide.addCard("Reproduction Selection", reproPanel);
@@ -130,8 +135,8 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
 
         if (!p1Fight.isConfigured()) System.out.println("player one fight selection is not set");
         if (!p2Fight.isConfigured()) System.out.println("player two fight selection is not set");
-        if (!p1Repro.isConfigured()) System.out.println("player one fight selection is not set");
-        if (!p2Repro.isConfigured()) System.out.println("player two fight selection is not set");
+        if (!p1Repro.isConfigured()) System.out.println("player one reproduction selection is not set");
+        if (!p2Repro.isConfigured()) System.out.println("player two reproduction selection is not set");
 
 
         if (temp == null) System.out.println("The game is not defined");
