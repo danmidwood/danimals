@@ -8,11 +8,11 @@ import java.awt.event.ActionListener;
 
 public class GamePanel extends Box implements GameModel, ActionListener {
     Game game;
-    JTextField name = new JTextField("Untitled com.danmidwood.danimals.Game");
+    JTextField name = new JTextField("Untitled Game");
     JTextField choiceOne = new JTextField("");
     JTextField choiceTwo = new JTextField("");
-    JButton initialize = new JButton("Create com.danmidwood.danimals.Game");
-    JButton define = new JButton("Define com.danmidwood.danimals.Game");
+    JButton initialize = new JButton("Create Game");
+    JButton define = new JButton("Define Game");
     GameDesigner gd;
     boolean gameDefined = false;
     ActionListener listening = null;
@@ -26,7 +26,7 @@ public class GamePanel extends Box implements GameModel, ActionListener {
     private void setup() {
         Dimension prefDim = new Dimension(100, new Double(name.getPreferredSize().getHeight()).intValue());
         JPanel gameName = new JPanel();
-        gameName.setBorder(new javax.swing.border.TitledBorder("com.danmidwood.danimals.Game name"));
+        gameName.setBorder(new javax.swing.border.TitledBorder("Game name"));
         gameName.add(name);
         name.setPreferredSize(prefDim);
 
@@ -66,11 +66,11 @@ public class GamePanel extends Box implements GameModel, ActionListener {
             if (isInputValid(name.getText()) && isInputValid(choiceOne.getText())
                     && isInputValid(choiceTwo.getText()) && !choiceOne.getText().equals(choiceTwo.getText())) {
                 createGame(name.getText(), choiceOne.getText(), choiceTwo.getText());
-            } else System.out.println("com.danmidwood.danimals.Game not created : incomplete information");
+            } else System.out.println("Game not created : incomplete information");
         } else if (src == define) defineGame();
         else if (command.equals(GameDesigner.READY)) {
             if (listening != null)
-                listening.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "com.danmidwood.danimals.Game is ready"));
+                listening.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Game is ready"));
             gameDefined = true;
             gd.hide();
         } else {

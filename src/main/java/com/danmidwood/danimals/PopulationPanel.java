@@ -11,11 +11,11 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
 
     static String FITNESS = "Fitness";
 
-    DefaultTableModel stats = new DefaultTableModel(new String[]{"", "Selected", "Total", "Average", "Minimum", "Maximum", "Colour"}, 0);
+
     BitGrid bg;
     Population pop;
     JPanel bsInfo = new JPanel(new BorderLayout());
-    JLabel selectedString = new JLabel("A Foray into Life. The com.danmidwood.danimals.Danimals.");
+    JLabel selectedString = new JLabel("A Foray into Life. The Danimals.");
     StatTable popInfo = new StatTable();
     RuleParser parser;
 
@@ -42,8 +42,7 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
         bg = new BitGrid(pop);
         bg.addCellSelectionListener(this);
         add(bg);
-        stats.addTableModelListener(this);
-        popInfo.setModel(stats);
+        popInfo.getModel().addTableModelListener(this);
         popInfo.addCellSelectionListener(this);
         // Create the colour column of the stat table
         // The colour picker is slightly buggy

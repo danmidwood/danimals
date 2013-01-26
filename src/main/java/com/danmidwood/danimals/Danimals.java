@@ -28,11 +28,11 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
     // Count how many fight-mate seasons have run
     int seasonNo = 0;
     // How many seasons to run before stopping
-    int stopAfter = 5;
+    int stopAfter = 500;
 
 
     public Danimals() {
-        super("com.danmidwood.danimals.Danimals - A Foray into Life");
+        super("Danimals - A Foray into Life");
         popMain.setPopulation(pop);
         env.populate(1, 0.5);
         env.setMutateRate(0.01);
@@ -59,12 +59,12 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
 
     private void setupOptions() {
         gamePane = new GamePanel();
-        optionsSide.addCard("com.danmidwood.danimals.Game", gamePane);
+        optionsSide.addCard("Game", gamePane);
         gamePane.addActionListener(this);
 
 
         EnvironmentPanel envPane = new EnvironmentPanel(env);
-        optionsSide.addCard("com.danmidwood.danimals.Environment", envPane);
+        optionsSide.addCard("Environment", envPane);
 
         Class[] classes = PopulationMemberSelectors.getSelections();
 
@@ -75,7 +75,7 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
         p2Fight.setModel(classes);
         fightPanel.add(p1Fight);
         fightPanel.add(p2Fight);
-        optionsSide.addCard("Fight com.danmidwood.danimals.Selection", fightPanel);
+        optionsSide.addCard("Fight Selection", fightPanel);
 
         JPanel reproPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         p1Repro = new SelectionPanel(1);
@@ -84,7 +84,7 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
         p2Repro.setModel(classes);
         reproPanel.add(p1Repro);
         reproPanel.add(p2Repro);
-        optionsSide.addCard("Reproduction com.danmidwood.danimals.Selection", reproPanel);
+        optionsSide.addCard("Reproduction Selection", reproPanel);
 
     }
 

@@ -8,7 +8,7 @@ import java.util.TreeSet;
 import static java.util.Arrays.asList;
 
 public class Game extends java.util.HashMap<String, Result> implements GameModel {
-    String name = "Untitled com.danmidwood.danimals.Game";
+    String name = "Untitled Game";
     String[] choices;
     RuleParser parser;
 

@@ -4,13 +4,13 @@ package com.danmidwood.danimals;
 public class Sex extends Selection {
 
     public Sex() {
-        put(new String("com.danmidwood.danimals.Sex bit"), new Integer(0));
+        put(new String("Sex bit"), new Integer(0));
         put(new String("Wanted value"), Boolean.valueOf(true));
     }
 
     public Object select(Population pop) throws Exception {
         boolean wantedSex = (Boolean) getParamValue("Desired value");
-        int sexBit = (Integer) getParamValue("com.danmidwood.danimals.Sex bit");
+        int sexBit = (Integer) getParamValue("Sex bit");
         System.out.println("checking for " + sexBit + " being " + wantedSex);
         if (!ready()) throw new Exception("Parameters not yet initialized");
         // Do not want to alter the current environment so create a

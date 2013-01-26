@@ -57,7 +57,7 @@ public class SelectionComboBox extends ClassComboBox {
                     break;
                 }
             } catch (Exception e) {
-                System.out.println("com.danmidwood.danimals.Selection error :" + e.toString());
+                System.out.println("Selection error :" + e.toString());
             }
 
         }

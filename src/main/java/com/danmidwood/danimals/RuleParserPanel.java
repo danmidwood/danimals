@@ -35,7 +35,7 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
         choices = new JComboBox(choicesToAdd);
         choices.addActionListener(this);
         JPanel choiceHolder = new JPanel();
-        choiceHolder.setBorder(new javax.swing.border.TitledBorder("com.danmidwood.danimals.Game choice"));
+        choiceHolder.setBorder(new javax.swing.border.TitledBorder("Game choice"));
         choiceHolder.add(choices);
         inputs.add(choiceHolder);
         // Create spinners for rule start and end values
@@ -77,7 +77,7 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
     private void setupClausePanel() {
         Box clauseBox = Box.createVerticalBox();
         JPanel inputs = new JPanel();
-        inputs.setBorder(new javax.swing.border.TitledBorder("com.danmidwood.danimals.Rule clauses"));
+        inputs.setBorder(new javax.swing.border.TitledBorder("Rule clauses"));
         JPanel howFarBackHolder = new JPanel();
         howFarBackHolder.setBorder(new javax.swing.border.TitledBorder("How far back"));
         SpinnerModel numModel = new SpinnerNumberModel(1, 1, 1000, 1);
