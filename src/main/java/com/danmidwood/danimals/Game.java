@@ -8,7 +8,6 @@ import java.util.TreeSet;
 import static java.util.Arrays.asList;
 
 public class Game extends java.util.HashMap<String, Result> implements GameModel {
-    String name = "Untitled Game";
     String[] choices;
     RuleParser parser;
 
@@ -56,14 +55,6 @@ public class Game extends java.util.HashMap<String, Result> implements GameModel
 
     public void setParser(RuleParser newParser) {
         this.parser = newParser;
-    }
-
-    public void setName(String newName) {
-        this.name = newName;
-    }
-
-    public String getName() {
-        return name;
     }
 
     private void addKeys() {

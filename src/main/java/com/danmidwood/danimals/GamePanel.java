@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 public class GamePanel extends Box implements GameModel, ActionListener {
     Game game;
-    JTextField name = new JTextField("Untitled Game");
     JTextField choiceOne = new JTextField("");
     JTextField choiceTwo = new JTextField("");
     JButton initialize = new JButton("Create Game");
@@ -24,11 +23,8 @@ public class GamePanel extends Box implements GameModel, ActionListener {
     }
 
     private void setup() {
-        Dimension prefDim = new Dimension(100, new Double(name.getPreferredSize().getHeight()).intValue());
-        JPanel gameName = new JPanel();
-        gameName.setBorder(new javax.swing.border.TitledBorder("Game name"));
-        gameName.add(name);
-        name.setPreferredSize(prefDim);
+        Dimension prefDim = new Dimension(100, new Double(choiceOne.getPreferredSize().getHeight()).intValue());
+
 
         JPanel ch1 = new JPanel();
         ch1.add(choiceOne);
@@ -48,7 +44,6 @@ public class GamePanel extends Box implements GameModel, ActionListener {
         define.setVisible(false);
         define.addActionListener(this);
 
-        add(gameName);
         add(ch1);
         add(ch2);
         add(buttons);
@@ -63,9 +58,9 @@ public class GamePanel extends Box implements GameModel, ActionListener {
         Object src = e.getSource();
         String command = e.getActionCommand();
         if (src == initialize) {
-            if (isInputValid(name.getText()) && isInputValid(choiceOne.getText())
+            if (isInputValid(choiceOne.getText())
                     && isInputValid(choiceTwo.getText()) && !choiceOne.getText().equals(choiceTwo.getText())) {
-                createGame(name.getText(), choiceOne.getText(), choiceTwo.getText());
+                createGame(choiceOne.getText(), choiceTwo.getText());
             } else System.out.println("Game not created : incomplete information");
         } else if (src == define) defineGame();
         else if (command.equals(GameDesigner.READY)) {
@@ -84,7 +79,6 @@ public class GamePanel extends Box implements GameModel, ActionListener {
     }
 
     private void fireNewGame() {
-        name.setText(getName());
         choiceOne.setText(game.getChoice(0).toString());
         choiceTwo.setText(game.getChoice(1).toString());
         define.setVisible(true);
@@ -103,19 +97,10 @@ public class GamePanel extends Box implements GameModel, ActionListener {
     }
 
 
-    public void createGame(String name, String choiceOne, String choiceTwo) {
+    public void createGame(String choiceOne, String choiceTwo) {
         String[] choices = {choiceOne, choiceTwo};
         game = new Game(choices);
-        setName(name);
         fireNewGame();
-    }
-
-    public void setName(String newName) {
-        game.setName(newName);
-    }
-
-    public String getName() {
-        return game.getName();
     }
 
     public boolean ready() {

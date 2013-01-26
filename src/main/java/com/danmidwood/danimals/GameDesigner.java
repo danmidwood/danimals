@@ -12,7 +12,7 @@ public class GameDesigner extends JFrame {
     static public String READY = "The game is now ready";
 
     public GameDesigner(Game g) {
-        super("Editing " + g.getName());
+        super();
         setSize(100, 400);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.game = g;
