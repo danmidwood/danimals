@@ -1,4 +1,6 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.selection;
+
+import com.danmidwood.danimals.Population;
 
 abstract public class Selection extends java.util.TreeMap {
     Class[] allowed = {String.class, Integer.class, Boolean.class};

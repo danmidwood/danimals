@@ -1,5 +1,9 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.selection.Random;
+import com.danmidwood.danimals.selection.Roulette;
+import com.danmidwood.danimals.selection.Selection;
+
 /**
  * The test class com.danmidwood.danimals.ClassComboPanelTest.
  *

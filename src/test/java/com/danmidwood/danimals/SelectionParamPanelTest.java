@@ -1,5 +1,7 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.selection.Sex;
+
 /**
  * The test class com.danmidwood.danimals.SelectionParamPanelTest.
  *

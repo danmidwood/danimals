@@ -1,5 +1,10 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.selection.Location;
+import com.danmidwood.danimals.selection.Random;
+import com.danmidwood.danimals.selection.Roulette;
+import com.danmidwood.danimals.selection.Sex;
+
 import java.util.ArrayList;
 import java.util.List;
 

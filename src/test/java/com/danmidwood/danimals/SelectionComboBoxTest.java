@@ -1,5 +1,7 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.selection.*;
+
 import javax.swing.*;
 import java.awt.*;
 

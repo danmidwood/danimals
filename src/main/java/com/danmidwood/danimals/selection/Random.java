@@ -1,4 +1,8 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.selection;
+
+import com.danmidwood.danimals.BitString;
+import com.danmidwood.danimals.Coord;
+import com.danmidwood.danimals.Population;
 
 public class Random extends Selection {
 

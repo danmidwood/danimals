@@ -1,5 +1,7 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.selection.Selection;
+
 /**
  * The test class com.danmidwood.danimals.SelectionPanelTest.
  *
@@ -34,7 +36,7 @@ public class SelectionPanelTest extends junit.framework.TestCase {
 
     public void testTestSelectionPanel() {
 
-        javax.swing.JFrame frame = new javax.swing.JFrame("com.danmidwood.danimals.Selection test");
+        javax.swing.JFrame frame = new javax.swing.JFrame("com.danmidwood.danimals.selection.Selection test");
         SelectionPanel selec1 = new SelectionPanel(1, javax.swing.BoxLayout.Y_AXIS, java.awt.BorderLayout.NORTH);
         SelectionPanel selec2 = new SelectionPanel(2, javax.swing.BoxLayout.Y_AXIS, java.awt.BorderLayout.SOUTH);
         frame.getContentPane().setLayout(new java.awt.GridLayout(2, 1, 10, 0));
@@ -44,11 +46,11 @@ public class SelectionPanelTest extends junit.framework.TestCase {
         Class type = Selection.class;
         String dir = ".";
         Class[] obs = PopulationMemberSelectors.getSelections();
-        //         moddy.addElement(com.danmidwood.danimals.Random.class);
-//         moddy.addElement(com.danmidwood.danimals.Roulette.class);
+        //         moddy.addElement(com.danmidwood.danimals.selection.Random.class);
+//         moddy.addElement(com.danmidwood.danimals.selection.Roulette.class);
 //         moddy.addElement(String.class);
-//         moddy.addElement(com.danmidwood.danimals.Location.class);
-//         moddy.addElement(com.danmidwood.danimals.Sex.class);
+//         moddy.addElement(com.danmidwood.danimals.selection.Location.class);
+//         moddy.addElement(com.danmidwood.danimals.selection.Sex.class);
         selec1.setModel(obs);
         selec2.setModel(obs);
         frame.setSize(400, 100);

@@ -41,7 +41,7 @@ public class SideBarTest extends junit.framework.TestCase {
         javax.swing.Box reproSelec = javax.swing.Box.createHorizontalBox();
         reproSelec.add(new SelectionPanel(1, javax.swing.BoxLayout.Y_AXIS, java.awt.BorderLayout.NORTH));
         reproSelec.add(new SelectionPanel(2, javax.swing.BoxLayout.Y_AXIS, java.awt.BorderLayout.NORTH));
-        sb.addCard("com.danmidwood.danimals.Selection", reproSelec);
+        sb.addCard("com.danmidwood.danimals.selection.Selection", reproSelec);
         List<String> choices = new ArrayList<String>();
         choices.add("Cooperate");
         choices.add("Defect");
