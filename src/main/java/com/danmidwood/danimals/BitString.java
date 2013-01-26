@@ -3,24 +3,13 @@ package com.danmidwood.danimals;
 import java.util.ArrayList;
 import java.util.BitSet;
 
-/**
- * @author Dan Midwood
- * @version 0.1
- */
 public class BitString extends BitSet {
-    static int populationCount = 0;
-    int id;
     double fitness = 0;
     ArrayList scores = new ArrayList();
 
 
-    /**
-     * Constructor for objects of class com.danmidwood.danimals.BitString
-     */
     public BitString(int size) {
         super(size);
-        populationCount++;
-        id = populationCount;
     }
 
     public void setBits(BitString newBits) {

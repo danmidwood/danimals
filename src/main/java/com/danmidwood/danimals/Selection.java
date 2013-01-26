@@ -1,11 +1,5 @@
 package com.danmidwood.danimals;
 
-/**
- * Abstract class com.danmidwood.danimals.Selection - write a description of the class here
- *
- * @author (your name here)
- * @version (version number or date here)
- */
 abstract public class Selection extends java.util.TreeMap {
     Class[] allowed = {String.class, Integer.class, Boolean.class};
 
@@ -19,10 +13,6 @@ abstract public class Selection extends java.util.TreeMap {
         return !isEmpty();
     }
 
-    public java.util.Set getParams() {
-        return keySet();
-    }
-
     public Object getParamValue(Object key) {
         return get(key);
     }
@@ -32,16 +22,14 @@ abstract public class Selection extends java.util.TreeMap {
     }
 
     public boolean ready() {
-        java.util.Iterator it = keySet().iterator();
-        while (it.hasNext()) {
-            if (it.next() == null) return false;
+        for (Object o : keySet()) {
+            if (o == null) return false;
         }
         return true;
     }
 
     public Object addParam(Object key, Object value) {
-        for (int classIndex = 0; classIndex < allowed.length; classIndex++) {
-            Class curClass = allowed[classIndex];
+        for (Class curClass : allowed) {
             if (curClass.isInstance(value))
                 return put(key, value);
         }

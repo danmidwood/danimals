@@ -1,32 +1,23 @@
 package com.danmidwood.danimals;
 
-/**
- * Write a description of class com.danmidwood.danimals.Location here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class Location extends Selection {
-    int row;
-    int col;
 
     public Location() {
-        addParam(new String("radius"), new Integer(10));
+        addParam("radius", 10);
     }
 
 
     public Object select(Population pop) throws Exception {
         if (!ready()) throw new Exception("Parameters not yet initialized");
-        int radius = ((Integer) getParamValue("radius")).intValue();
+        int radius = (Integer) getParamValue("radius");
         // Do not want to alter the current environment so create a
         // temp copy to play with.
         Population malleablePop = (Population) pop.clone();
         Coord currentLocation = (Coord) pop.getCurrentlySelected();
         int row = currentLocation.getRow();
         int col = currentLocation.getCol();
-        java.util.Iterator allStrings = pop.keySet().iterator();
-        while (allStrings.hasNext()) {
-            Coord thisLocation = (Coord) allStrings.next();
+        for (Coord thisLocation : pop.keySet()) {
             int rowDiff = row - thisLocation.getRow();
             int colDiff = col - thisLocation.getCol();
             double thisRadius = Math.sqrt((colDiff * colDiff) + (rowDiff * rowDiff));

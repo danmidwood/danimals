@@ -2,36 +2,30 @@ package com.danmidwood.danimals;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-/**
- * Write a description of class EnvironmentVars here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class Environment {
     int stringSize = 64;
     double mutateRate = 0.02;
-    java.util.List crossOverPoints = new java.util.ArrayList();
+    java.util.List<Integer> crossOverPoints = new java.util.ArrayList<Integer>();
     Game thisGame;
     Population pop;
     int roundsPerBattle = 50;
 
     private javax.swing.event.EventListenerList listeners = new javax.swing.event.EventListenerList();
     final static int MUTATERATE_ALTERED = java.awt.AWTEvent.RESERVED_ID_MAX + 1;
-    final static int NEW_POINTS = java.awt.AWTEvent.RESERVED_ID_MAX + 2;
-    final static int NEW_BITSTRINGS = java.awt.AWTEvent.RESERVED_ID_MAX + 3;
 
     public Environment() {
-        crossOverPoints.add(new Integer(0));
-        crossOverPoints.add(new Integer(8));
-        crossOverPoints.add(new Integer(16));
-        crossOverPoints.add(new Integer(24));
-        crossOverPoints.add(new Integer(32));
-        crossOverPoints.add(new Integer(40));
-        crossOverPoints.add(new Integer(48));
-        crossOverPoints.add(new Integer(56));
-        crossOverPoints.add(new Integer(64));
+        crossOverPoints.add(0);
+        crossOverPoints.add(8);
+        crossOverPoints.add(16);
+        crossOverPoints.add(24);
+        crossOverPoints.add(32);
+        crossOverPoints.add(40);
+        crossOverPoints.add(48);
+        crossOverPoints.add(56);
+        crossOverPoints.add(64);
     }
 
 
@@ -40,23 +34,17 @@ public class Environment {
         return pop;
     }
 
-    public boolean ready() {
-        return (thisGame != null && pop != null);
-    }
-
-
     public boolean crossOver(Coord paLocation, Coord maLocation) {
         try {
             //make random points
-            int sections = getSections();
-            Object[] crossOverPoints = getCrossOverPoints().toArray();
+            Integer[] crossOverPoints = getCrossOverPoints().toArray(new Integer[getCrossOverPoints().size()]);
             BitString pa = (BitString) pop.getValueAt(paLocation);
             BitString ma = (BitString) pop.getValueAt(maLocation);
             GraphicalBitString sprog1 = new GraphicalBitString(getStringSize());
             GraphicalBitString sprog2 = new GraphicalBitString(getStringSize());
             for (int pointIndex = 0; pointIndex < crossOverPoints.length - 1; pointIndex++) {
-                int startIndex = ((Integer) crossOverPoints[pointIndex]).intValue();
-                int endIndex = ((Integer) crossOverPoints[pointIndex + 1]).intValue();
+                int startIndex = crossOverPoints[pointIndex];
+                int endIndex = crossOverPoints[pointIndex + 1];
                 boolean even = (pointIndex % 2) == 0;
                 if (even) {
                     for (int thisBit = startIndex; thisBit < endIndex; thisBit++) {
@@ -74,9 +62,7 @@ public class Environment {
             sprog1.mutate(getMutateRate());
             sprog2.mutate(getMutateRate());
             // Returns true when no more children can fit in
-            if (pop.addChildAt(sprog1, paLocation)) return true; // No room for second string
-            if (pop.addChildAt(sprog2, maLocation)) return true;
-            return false;
+            return pop.addChildAt(sprog1, paLocation) || pop.addChildAt(sprog2, maLocation);
         } catch (Exception e) {
             System.out.println("Error : " + e.toString());
             return false;
@@ -86,7 +72,7 @@ public class Environment {
     public void doBattle(Coord p1Location, Coord p2Location) {
         BitString p1 = (BitString) pop.getValueAt(p1Location);
         BitString p2 = (BitString) pop.getValueAt(p2Location);
-        java.util.ArrayList history = new java.util.ArrayList();
+        ArrayList<Result> history = new ArrayList<Result>();
         for (int roundNo = 0; roundNo < roundsPerBattle; roundNo++) {
             history.add(thisGame.doRound(p1, p2, history));
         }
@@ -105,10 +91,9 @@ public class Environment {
 
 
     public void fireAction(ActionEvent e) {
-        ActionListener[] actionListeners = (ActionListener[]) listeners.getListeners(ActionListener.class);
-        for (int listenerIndex = 0; listenerIndex < actionListeners.length; listenerIndex++) {
-            ActionListener al = (ActionListener) actionListeners[listenerIndex];
-            al.actionPerformed(e);
+        ActionListener[] actionListeners = listeners.getListeners(ActionListener.class);
+        for (ActionListener actionListener : actionListeners) {
+            actionListener.actionPerformed(e);
         }
     }
 
@@ -116,24 +101,12 @@ public class Environment {
         this.pop = pop;
     }
 
-    public Population getPopulation() {
-        return pop;
-    }
-
     public void addActionListener(ActionListener al) {
         listeners.add((Class<ActionListener>) al.getClass(), al);
     }
 
-    public void removeActionListener(ActionListener al) {
-        listeners.remove((Class<ActionListener>) al.getClass(), al);
-    }
-
     public int getStringSize() {
         return stringSize;
-    }
-
-    public void setStringSize(int newStringSize) {
-        stringSize = newStringSize;
     }
 
     public double getMutateRate() {
@@ -146,16 +119,8 @@ public class Environment {
         mutateRate = newMutateRate;
     }
 
-    public java.util.List getCrossOverPoints() {
+    public java.util.List<Integer> getCrossOverPoints() {
         return crossOverPoints;
-    }
-
-    public void setCrossOverPoints(java.util.List newCrossOverPoints) {
-        crossOverPoints = newCrossOverPoints;
-    }
-
-    public int getSections() {
-        return crossOverPoints.size() + 1;
     }
 
     public Game getGame() throws Exception {

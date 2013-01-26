@@ -3,20 +3,14 @@ package com.danmidwood.danimals;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-/**
- * Write a description of class com.danmidwood.danimals.SelectionPanel here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class SelectionPanel extends JPanel implements ActionListener {
     Box getDetails = Box.createVerticalBox();
     JButton editParam = new JButton("Edit");
     SelectionComboBox scb;
     JViewport vp;
-    static final boolean ADD_AT_BOTTOM = true;
-    static final boolean ADD_AT_TOP = false;
     int playerNo;
 
     public SelectionPanel(int playerNo) {
@@ -26,7 +20,7 @@ public class SelectionPanel extends JPanel implements ActionListener {
     public SelectionPanel(int playerNo, int axis, String buttonPlacement) {
         this.playerNo = playerNo;
         setBorder(new javax.swing.border.TitledBorder("Player " + playerNo));
-        if (buttonPlacement == BorderLayout.CENTER) buttonPlacement = BorderLayout.NORTH;
+        if (buttonPlacement.equals(BorderLayout.CENTER)) buttonPlacement = BorderLayout.NORTH;
         setLayout(new BorderLayout());
         JPanel selectionContainer = new JPanel();
         selectionContainer.setLayout(new BoxLayout(selectionContainer, axis));
@@ -36,23 +30,18 @@ public class SelectionPanel extends JPanel implements ActionListener {
         showButton(false);
         add(editParam, buttonPlacement);
         editParam.addActionListener(this);
-        JScrollPane selecScroll = new JScrollPane(selectionContainer);
-        selecScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        vp = selecScroll.getViewport();
-        add(selecScroll, BorderLayout.CENTER);
-    }
-
-    public void setModel(javax.swing.DefaultComboBoxModel moddy) {
-        scb.setModel(moddy);
+        JScrollPane selectionScroll = new JScrollPane(selectionContainer);
+        selectionScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        vp = selectionScroll.getViewport();
+        add(selectionScroll, BorderLayout.CENTER);
     }
 
     public void setModel(Class[] obs) {
         scb.setModel(new javax.swing.DefaultComboBoxModel(obs));
     }
 
-    public java.util.ArrayList getAllSelections() {
-        SelectionComboBox curScb = scb;
-        java.util.ArrayList rtn = new java.util.ArrayList();
+    public java.util.List<Selection> getAllSelections() {
+        ArrayList<Selection> rtn = new ArrayList<Selection>();
         rtn.add(scb.getSelection());
         while (scb.hasChild()) {
             scb = scb.getChild();
@@ -77,39 +66,25 @@ public class SelectionPanel extends JPanel implements ActionListener {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error in selection : " + e.getMessage().toString());
+            System.out.println("Error in selection : " + e.getMessage());
         }
         throw new Exception("Player " + playerNo + " : Nothing found");
     }
-
-
-//     private void setModel(javax.swing.DefaultComboBoxModel moddy, Container cont) {
-//         Component[] comps = cont.getComponents();
-//         for (int compIndex = 0; compIndex < comps.length; compIndex++) {
-//             Component thisComp = comps[compIndex];
-//             if (thisComp instanceof Container) { setModel(moddy, (Container)thisComp); }
-//             if (thisComp instanceof com.danmidwood.danimals.SelectionComboBox) {
-//                 com.danmidwood.danimals.SelectionComboBox scb = (com.danmidwood.danimals.SelectionComboBox)comps[compIndex];
-//                 scb.setModel(moddy);
-//             }
-//         }
-//     }
 
     public void showButton(boolean on) {
         editParam.setVisible(on);
     }
 
     public void actionPerformed(java.awt.event.ActionEvent ae) {
-        if (ae.getSource().getClass() == JButton.class) actionOnButton(ae);
+        if (ae.getSource().getClass() == JButton.class) actionOnButton();
         else if (ae.getSource().getClass() == SelectionComboBox.class) actionOnCombo(ae);
-//         else System.out.println(ae.getSource().getClass().getName());
     }
 
     public void actionOnCombo(java.awt.event.ActionEvent ae) {
         try {
             SelectionComboBox thisCombo = (SelectionComboBox) ae.getSource();
             //if (thisCombo.isPopupVisible()) return;
-            Selection thisSelection = (Selection) thisCombo.getSelection();
+            Selection thisSelection = thisCombo.getSelection();
             if (thisSelection.needsChild()) {
                 thisCombo.addChild();
                 int newHeight = (new Double(vp.getViewPosition().getY() + thisCombo.getSize().getHeight())).intValue();
@@ -121,20 +96,18 @@ public class SelectionPanel extends JPanel implements ActionListener {
                 }
             }
             showButton(scb.needParams());
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } // Do nothing
     }
 
-    public void actionOnButton(java.awt.event.ActionEvent ae) {
+    private void actionOnButton() {
         getDetails.removeAll();
-        int newHeight = 0;
         SelectionComboBox thisCombo = scb;
         try {
             getDetails.add(new SelectionParamPanel(thisCombo.getSelection()));
             while (thisCombo.hasChild()) {
                 SelectionComboBox child = thisCombo.getChild();
                 SelectionParamPanel spp = new SelectionParamPanel(child.getSelection());
-                newHeight = +(new Double(spp.getPreferredSize().getHeight())).intValue();
                 getDetails.add(spp);
                 thisCombo = child;
             }
@@ -146,14 +119,5 @@ public class SelectionPanel extends JPanel implements ActionListener {
         f.setSize(100, 100);
         f.show();
     }
-
-//     public boolean containsComponent( Component c) {
-//         Component[] allComps = getComponents();
-//         for (int cIndex=0; cIndex < allComps.length; cIndex++) {
-//             if (allComps[cIndex] == c) return true;
-//         }
-//         return false;
-//     }
-
 
 }

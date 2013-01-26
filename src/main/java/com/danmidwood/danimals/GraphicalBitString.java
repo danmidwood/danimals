@@ -1,11 +1,5 @@
 package com.danmidwood.danimals;
 
-/**
- * Write a description of class com.danmidwood.danimals.GraphicalBitString here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class GraphicalBitString extends BitString implements javax.swing.Icon {
     int width = 0;
     int height = 0;
@@ -30,18 +24,14 @@ public class GraphicalBitString extends BitString implements javax.swing.Icon {
         float green = getColour(BitStringDisplay.G);
         float blue = getColour(BitStringDisplay.B);
         java.awt.Color thisColour = new java.awt.Color(red, green, blue);
-        java.awt.Color invertedColour = new java.awt.Color(1 - red, 1 - green, 1 - blue);
 
-        java.awt.Dimension d = c.getSize();
         width = BitStringDisplay.getIconWidth(); //new Double(d.getWidth()).intValue();
         height = BitStringDisplay.getIconHeight(); //= new Double(d.getHeight()).intValue();
 
         int eyeLeft = width / 3;
         int eyeTop = height / 3;
-        int eyeSize = 2; //width / 10;
-        int indent = width / 10;
-//         g.setColor(invertedColour);
-//         g.fillRect(x, y, x+width, y+height);
+        int eyeSize = 2;
+
         g.setColor(thisColour);
         g.fillOval(x + 1, y + 1, width - 1, height - 1);
         g.drawLine(width / 2, height / 3, x + width, y + height);
@@ -53,7 +43,7 @@ public class GraphicalBitString extends BitString implements javax.swing.Icon {
 
     }
 
-    public float getColour(int colour) {//throws Exception{
+    public float getColour(int colour) {
         try {
             java.util.Iterator thisColoursSections = BitStringDisplay.getSections(colour).iterator();
             int divider = 0;
@@ -69,8 +59,6 @@ public class GraphicalBitString extends BitString implements javax.swing.Icon {
             }
             if (total == 0) return total;
             else return total / divider;
-//             fromIndex = displayParser.get(colour, com.danmidwood.danimals.BitStringDisplay.FROM);
-//             toIndex = displayParser.get(colour, com.danmidwood.danimals.BitStringDisplay.TO);
         } catch (Exception e) {
             System.out.println("Error in colour section " + colour + " - " + e.toString());
             return 0;

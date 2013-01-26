@@ -5,16 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Write a description of class com.danmidwood.danimals.Danimals here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class Danimals extends JFrame implements ActionListener, Runnable {
     Environment env = new Environment();
     Population pop = env.createPopulation(15, 15);
-    BitGrid bg = new BitGrid(pop);
     PopulationPanel popMain = new PopulationPanel();
     JButton start = new JButton("Start");
     JButton stop = new JButton("Stop");
@@ -224,7 +217,7 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
 
 
     static public void main(String[] args) {
-        Danimals evolvo = new Danimals();
+        new Danimals();
     }
 }
 

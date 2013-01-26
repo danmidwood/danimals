@@ -6,18 +6,12 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-/**
- * Write a description of class ColourPicker here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class ColorPicker extends AbstractCellEditor implements Icon, TableCellEditor, TableCellRenderer, ActionListener {
 
     final Color colours[] = {null, Color.RED, Color.GREEN, Color.BLUE};
     final String names[] = {"No colour", "Red", "Green", "Blue"};
     int selectedColour = 0;
-    static Integer NO_COLOR = new Integer(0);
+    static Integer NO_COLOR = 0;
     JButton clicker = new JButton(names[0], this);
 
     public ColorPicker() {
@@ -29,20 +23,19 @@ public class ColorPicker extends AbstractCellEditor implements Icon, TableCellEd
         if (value == null) return null; //value = NO_COLOR;
         //value = new Integer(0);
         Integer colorNo = (Integer) value;
-        selectedColour = colorNo.intValue();
-        return new JLabel(names[colorNo.intValue()], this, SwingConstants.LEFT);
+        selectedColour = colorNo;
+        return new JLabel(names[colorNo], this, SwingConstants.LEFT);
     }
 
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        if (value == null) return null; //value = NO_COLOR;
-        Integer colorNo = (Integer) value;
-        selectedColour = colorNo.intValue();
+        if (value == null) return null;
+        selectedColour = (Integer) value;
         return clicker;
     }
 
 
     public Object getCellEditorValue() {
-        return new Integer(selectedColour);
+        return selectedColour;
     }
 
 

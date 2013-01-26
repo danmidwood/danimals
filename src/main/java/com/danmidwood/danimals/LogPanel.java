@@ -2,12 +2,6 @@ package com.danmidwood.danimals;
 
 import javax.swing.*;
 
-/**
- * Write a description of class com.danmidwood.danimals.LogPanel here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class LogPanel extends JScrollPane {
     Log logger;
     JList logDisplay;

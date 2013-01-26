@@ -3,12 +3,6 @@ package com.danmidwood.danimals;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-/**
- * Write a description of class com.danmidwood.danimals.SelectionPanel here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class ClassComboBox extends JComboBox {
     protected Class wantedClass;
 
@@ -19,29 +13,11 @@ public class ClassComboBox extends JComboBox {
         setRenderer(new ClassRenderer());
     }
 
-    public ClassComboBox(Object[] obs, Class wantedClass) {
-        this.wantedClass = wantedClass;
-        //ComboBoxModel newMod = getNewModel(mod);
-        setModel(obs);
-        setRenderer(new ClassRenderer());
-    }
-
     public void actionPerformed(ActionEvent ae) {
         super.actionPerformed(ae);
         System.out.println(ae.toString());
     }
 
-
-    public void setModel(Object[] obs) {
-        DefaultComboBoxModel newMod = new DefaultComboBoxModel();
-        for (int listIndex = 0; listIndex < obs.length; listIndex++) {
-            Object thisOb = obs[listIndex];
-            addObject(thisOb, newMod);
-        }
-        newMod.setSelectedItem(null);
-        super.setModel(newMod);
-
-    }
 
     public void setModel(ComboBoxModel mod) {
         DefaultComboBoxModel newMod = new DefaultComboBoxModel();

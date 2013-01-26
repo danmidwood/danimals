@@ -5,30 +5,26 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-/**
- * Write a description of class com.danmidwood.danimals.Environment here.
- *
- * @author Dan Midwood
- * @version 1
- */
-public class Population extends AbstractTableModel implements Cloneable, java.util.Map {
+public class Population extends AbstractTableModel implements Cloneable, Map<Coord, Object> {
     EventListenerList listeners = new EventListenerList();
-    java.util.HashMap data; // Contains the bitStrings
+    Map<Coord, Object> data; // Contains the bitStrings
     int rows;
     int cols;
     Object currentlySelected;
-    java.util.HashMap newData;
+    HashMap<Coord, Object> newData;
 
 
-    /**
-     * Constructor for objects of class com.danmidwood.danimals.Environment
-     */
     public Population(int rows, int cols) {
         this.cols = cols;
         this.rows = rows;
-        data = new java.util.HashMap(rows * cols);
-        newData = new java.util.HashMap(rows * cols);
+        data = new HashMap(rows * cols);
+        newData = new HashMap<Coord, Object>(rows * cols);
     }
 
     /**
@@ -40,19 +36,17 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
         this.cols = newPop.cols;
         this.rows = newPop.rows;
         this.currentlySelected = newPop.currentlySelected;
-        this.data = new java.util.HashMap(newPop.data);
+        this.data = new HashMap<Coord, Object>(newPop.data);
     }
 
 
-    // Methods inherited from AbstractTableModel
     public void addTableModelListener(javax.swing.event.TableModelListener l) {
         listeners.add(javax.swing.event.TableModelListener.class, l);
     }
 
     public void fireUpdate(TableModelEvent e) {
-        javax.swing.event.TableModelListener[] tableModelListeners = (javax.swing.event.TableModelListener[]) listeners.getListeners(javax.swing.event.TableModelListener.class);
-        for (int listenerIndex = 0; listenerIndex < tableModelListeners.length; listenerIndex++) {
-            TableModelListener tml = (TableModelListener) tableModelListeners[listenerIndex];
+        javax.swing.event.TableModelListener[] tableModelListeners = listeners.getListeners(TableModelListener.class);
+        for (TableModelListener tml : tableModelListeners) {
             tml.tableChanged(e);
         }
     }
@@ -81,9 +75,6 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
         return get(location);
     }
 
-    public Object getValueAt(int slot) {
-        return getValueAt(getCoords(slot));
-    }
 
     public boolean isCellEditable(int row, int col) {
         return false;
@@ -93,13 +84,6 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
         listeners.remove(javax.swing.event.TableModelListener.class, l);
     }
 
-    public void setValueAt(Object newString, int slot) {
-        put(getCoords(slot), newString);
-    }
-
-    public void setValueAt(Object newString, Coord coords) {
-        put(coords, newString);
-    }
 
     public void setValueAt(Object newString, int row, int col) {
         put(new Coord(row, col), newString);
@@ -118,8 +102,9 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
 
     private boolean isItReady() {
         if (data.size() == newData.size()) {
-            data = (java.util.HashMap) newData.clone();
-            newData = new java.util.HashMap(rows * cols);
+            //noinspection unchecked
+            data = new HashMap<Coord, Object>((Map) newData.clone());
+            newData = new HashMap<Coord, Object>(rows * cols);
             TableModelEvent e = new TableModelEvent(this, 0, rows, TableModelEvent.ALL_COLUMNS, TableModelEvent.UPDATE);
             fireUpdate(e);
             return true;
@@ -151,9 +136,10 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
         return data.containsValue(thisOb);
     }
 
-    public java.util.Set entrySet() {
+    public Set entrySet() {
         return data.entrySet();
     }
+
 
     public Object get(Object key) {
         currentlySelected = key;
@@ -171,10 +157,9 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
     }
 
     public void fireNewSelected(ActionEvent e) {
-        java.awt.event.ActionListener[] actionListeners = (java.awt.event.ActionListener[]) listeners.getListeners(java.awt.event.ActionListener.class);
-        for (int listenerIndex = 0; listenerIndex < actionListeners.length; listenerIndex++) {
-            java.awt.event.ActionListener ae = (java.awt.event.ActionListener) actionListeners[listenerIndex];
-            ae.actionPerformed(e);
+        java.awt.event.ActionListener[] actionListeners = listeners.getListeners(ActionListener.class);
+        for (ActionListener actionListener : actionListeners) {
+            actionListener.actionPerformed(e);
         }
     }
 
@@ -182,12 +167,13 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
         return data.isEmpty();
     }
 
-    public java.util.Set keySet() {
+
+    public Set<Coord> keySet() {
         return data.keySet();
     }
 
-    public Object put(Object key, Object value) {
-        Coord location = (Coord) key;
+    public Object put(Coord key, Object value) {
+        Coord location = key;
         int row = location.getRow();
         int col = location.getCol();
         BitString old = (BitString) get(key);
@@ -199,6 +185,7 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
     }
 
     public void putAll(java.util.Map newData) {
+        //noinspection unchecked
         data.putAll(newData);
     }
 
@@ -210,16 +197,15 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
         return data.size();
     }
 
-    public java.util.Collection values() {
+    public Collection values() {
         return data.values();
     }
 
 
     public int totalFitness() {
         int total = 0;
-        java.util.Iterator allStrings = values().iterator();
-        while (allStrings.hasNext()) {
-            total += ((BitString) allStrings.next()).getFitness();
+        for (Object o : values()) {
+            total += ((BitString) o).getFitness();
         }
         return total;
     }
@@ -231,8 +217,8 @@ public class Population extends AbstractTableModel implements Cloneable, java.ut
         double p2Score = 0;
         BitString p1String = (BitString) get(p1);
         BitString p2String = (BitString) get(p2);
-        for (int resultIndex = 0; resultIndex < history.size(); resultIndex++) {
-            Result thisRound = (Result) history.get(resultIndex);
+        for (Object aHistory : history) {
+            Result thisRound = (Result) aHistory;
             p1Score += thisRound.getScore(0);
             p2Score += thisRound.getScore(1);
         }

@@ -1,11 +1,6 @@
 package com.danmidwood.danimals;
 
-/**
- * The test class com.danmidwood.danimals.RuleParserPanelTest.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class RuleParserPanelTest extends junit.framework.TestCase {
     /**
      * Default constructor for test class com.danmidwood.danimals.RuleParserPanelTest

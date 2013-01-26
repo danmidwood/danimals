@@ -2,14 +2,7 @@ package com.danmidwood.danimals;
 
 import javax.swing.event.ListSelectionEvent;
 
-/**
- * Write a description of class com.danmidwood.danimals.BitGrid here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class BitGrid extends javax.swing.JTable // implements ListSelectionListener //java.awt.event.ActionListener
-{
+public class BitGrid extends javax.swing.JTable {
     javax.swing.event.EventListenerList listeners = new javax.swing.event.EventListenerList();
     int boxSize = 20;
 
@@ -38,10 +31,6 @@ public class BitGrid extends javax.swing.JTable // implements ListSelectionListe
         setColWidth(newWidth, newWidth, newWidth);
     }
 
-    public void setColWidth(int newMinWidth, int newMaxWidth) {
-        setColWidth(newMinWidth, newMaxWidth, newMaxWidth);
-    }
-
     public void setColWidth(int newMinWidth, int newMaxWidth, int newPrefWidth) {
         BitStringDisplay.setIconWidth(newMinWidth / 2);
         javax.swing.table.TableColumnModel tcm = getColumnModel();
@@ -58,18 +47,14 @@ public class BitGrid extends javax.swing.JTable // implements ListSelectionListe
         listeners.add(CellSelectionListener.class, l);
     }
 
-    public void removeCellSelectionListener(CellSelectionListener l) {
-        listeners.remove(CellSelectionListener.class, l);
-    }
-
     public void fireNewCellSelected(CellSelectionEvent e) {
         try {
-            CellSelectionListener[] tableModelListeners = (CellSelectionListener[]) listeners.getListeners(CellSelectionListener.class);
-            for (int listenerIndex = 0; listenerIndex < tableModelListeners.length; listenerIndex++) {
-                CellSelectionListener l = (CellSelectionListener) tableModelListeners[listenerIndex];
+            CellSelectionListener[] tableModelListeners = listeners.getListeners(CellSelectionListener.class);
+            for (CellSelectionListener tableModelListener : tableModelListeners) {
+                CellSelectionListener l = tableModelListener;
                 l.cellSelectionChanged(e);
             }
-        } catch (NullPointerException n) {
+        } catch (NullPointerException ignored) {
         }// A non-bitstring has been selected, no need to report error. just carry on regardless.
     }
 
@@ -78,7 +63,7 @@ public class BitGrid extends javax.swing.JTable // implements ListSelectionListe
      * A listener for the selected value changing. This is called automatically by the program
      * and will alert any object listening for changes.
      *
-     * @param ListSelectionEvent The event symbolising the changed value
+     * @param e The event symbolising the changed value
      */
     public void valueChanged(ListSelectionEvent e) {
         super.valueChanged(e);

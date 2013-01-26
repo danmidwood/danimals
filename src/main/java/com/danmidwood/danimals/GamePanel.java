@@ -5,12 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Write a description of class com.danmidwood.danimals.GamePanel here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class GamePanel extends Box implements GameModel, ActionListener {
     Game game;
     JTextField name = new JTextField("Untitled com.danmidwood.danimals.Game");
@@ -22,15 +17,6 @@ public class GamePanel extends Box implements GameModel, ActionListener {
     boolean gameDefined = false;
     ActionListener listening = null;
 
-
-    public GamePanel(Game game) {
-        super(BoxLayout.Y_AXIS);
-        setup();
-        this.game = game;
-        gd = new GameDesigner(game);
-        gd.addActionListener(this);
-        fireNewGame();
-    }
 
     public GamePanel() {
         super(BoxLayout.Y_AXIS);
@@ -72,10 +58,6 @@ public class GamePanel extends Box implements GameModel, ActionListener {
         if (listening == null) listening = l;
     }
 
-    public void removeActionListener() {
-        listening = null;
-    }
-
 
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
@@ -86,7 +68,7 @@ public class GamePanel extends Box implements GameModel, ActionListener {
                 createGame(name.getText(), choiceOne.getText(), choiceTwo.getText());
             } else System.out.println("com.danmidwood.danimals.Game not created : incomplete information");
         } else if (src == define) defineGame();
-        else if (command == GameDesigner.READY) {
+        else if (command.equals(GameDesigner.READY)) {
             if (listening != null)
                 listening.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "com.danmidwood.danimals.Game is ready"));
             gameDefined = true;
@@ -144,7 +126,7 @@ public class GamePanel extends Box implements GameModel, ActionListener {
         return game.unsetValues();
     }
 
-    public Object addResult(Object key, Result res) throws Exception {
+    public Object addResult(String key, Result res) throws Exception {
         return game.addResult(key, res);
     }
 

@@ -2,14 +2,9 @@ package com.danmidwood.danimals;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
-/**
- * Write a description of class SelectionComboPanel here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class SelectionComboBox extends ClassComboBox {
     protected int id;
     protected int playerNo;
@@ -47,15 +42,15 @@ public class SelectionComboBox extends ClassComboBox {
     public void setModel(ComboBoxModel mod) {
         super.setModel(mod);
 
-        // Create an initial selection. It is imperitive that this does
+        // Create an initial selection. It is imperative that this does
         // not require a child to prevent an endless loop of many children
         // being added.
-        for (int selecIndex = 0; selecIndex < getItemCount(); selecIndex++) {
+        for (int selectionIndex = 0; selectionIndex < getItemCount(); selectionIndex++) {
             try {
-                Class selecClass = (Class) getItemAt(selecIndex);
-                Selection selec = (Selection) selecClass.newInstance();
-                if (!selec.needsChild()) {
-                    setSelectedIndex(selecIndex);
+                Class selectionClass = (Class) getItemAt(selectionIndex);
+                Selection selection = (Selection) selectionClass.newInstance();
+                if (!selection.needsChild()) {
+                    setSelectedIndex(selectionIndex);
                     ItemEvent ie = new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, getSelectedItem(), ItemEvent.SELECTED);
                     fireItemStateChanged(ie);
 
@@ -87,23 +82,18 @@ public class SelectionComboBox extends ClassComboBox {
             try {
                 Class curClass = (Class) getSelectedItem();
                 curSelection = (Selection) curClass.newInstance();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             } // Ignore the exception, don't pass it on
         }
     }
 
 
-    public void addAllListeners(Object c) {
-        if (!(c instanceof JComboBox) && !(c instanceof JButton)) return;
-        JComboBox c2 = (JComboBox) c;
+    public void addAllListeners(JComboBox c) {
         java.awt.event.ActionListener[] actionListeners = getActionListeners();
-        for (int listenerIndex = 0; listenerIndex < actionListeners.length; listenerIndex++) {
-            c2.addActionListener(actionListeners[listenerIndex]);
+        for (ActionListener actionListener : actionListeners) {
+            c.addActionListener(actionListener);
         }
     }
-
-//     public Container getParent() { return parent; }
-
 
     protected void addChild() throws Exception {
         // Can only have one child
@@ -120,9 +110,7 @@ public class SelectionComboBox extends ClassComboBox {
     }
 
     protected boolean needParams() {
-        if (curSelection.hasParams()) return true;
-        else if (hasChild()) return child.needParams();
-        else return false;
+        return curSelection.hasParams() || hasChild() && child.needParams();
     }
 
     protected void removeChild() {

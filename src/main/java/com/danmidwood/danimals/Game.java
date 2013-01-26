@@ -1,59 +1,52 @@
 package com.danmidwood.danimals;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
-/**
- * Write a description of class Problem here.
- *
- * @author Dan Midwood
- * @version 1
- */
-public class Game extends java.util.HashMap implements GameModel {
+import static java.util.Arrays.asList;
+
+public class Game extends java.util.HashMap<String, Result> implements GameModel {
     String name = "Untitled com.danmidwood.danimals.Game";
-    Object[] choices;
+    String[] choices;
     RuleParser parser;
 
 
-    /**
-     * Constructor for objects of class Problem
-     */
-    public Game(Object[] theChoices) {
+    public Game(String[] theChoices) {
         super(new Double(Math.pow(theChoices.length, 2)).intValue(), 1); // Set the size
         choices = theChoices;
 
-        //int outcomes = new Double(Math.pow(choiceCount, playerCount)).intValue();
         addKeys();
     }
 
 
-    public java.util.ArrayList getChoiceNums(String input) {
-        java.util.List inputAsList = java.util.Arrays.asList(input.split("\\D+"));
-        java.util.Iterator it = inputAsList.iterator();
-        java.util.ArrayList rtn = new java.util.ArrayList();
+    public List<Integer> getChoiceNumbers(String input) {
+        List<String> inputAsList = asList(input.split("\\D+"));
+        Iterator<String> it = inputAsList.iterator();
+        List<Integer> rtn = new ArrayList<Integer>();
         while (it.hasNext()) {
-            Object next = it.next();
+            String next = it.next();
             if (next != null) {
-                int value = Integer.parseInt((String) next);
+                int value = Integer.parseInt(next);
                 if (value >= 0 && value < choices.length) {
-                    rtn.add(new Integer(value));
+                    rtn.add(value);
                 }
             }
         }
         return rtn;
     }
 
-    public java.util.ArrayList getChoiceNames(String input) {
-        java.util.ArrayList nums = getChoiceNums(input);
-        java.util.ArrayList names = new java.util.ArrayList();
-        java.util.Iterator numsToNames = nums.iterator();
-        while (numsToNames.hasNext()) {
-            int choiceNo = ((Integer) numsToNames.next()).intValue();
-            names.add((String) getChoice(choiceNo));
+    public ArrayList<String> getChoiceNames(String input) {
+        List<Integer> nums = getChoiceNumbers(input);
+        ArrayList<String> names = new ArrayList<String>();
+        for (Integer choiceNo : nums) {
+            names.add(getChoice(choiceNo));
         }
         return names;
     }
 
-    public Object getChoice(int choiceNo) {
+    public String getChoice(int choiceNo) {
         return choices[choiceNo];
     }
 
@@ -65,10 +58,6 @@ public class Game extends java.util.HashMap implements GameModel {
         this.parser = newParser;
     }
 
-    public RuleParser getParser() {
-        return parser;
-    }
-
     public void setName(String newName) {
         this.name = newName;
     }
@@ -77,9 +66,6 @@ public class Game extends java.util.HashMap implements GameModel {
         return name;
     }
 
-    /**
-     * Add all keys to the map
-     */
     private void addKeys() {
         addKeys(0, new int[2]);
     }
@@ -96,7 +82,7 @@ public class Game extends java.util.HashMap implements GameModel {
         if (index == userChoices.length - 1) {
             for (int thisChoice = 0; thisChoice < choices.length; thisChoice++) {
                 userChoices[userChoices.length - 1] = thisChoice;
-                String key = new String();
+                String key = "";
                 for (int i = 0; i < userChoices.length; i++) {
                     if (i > 0) key = key + "-";
                     key = key + userChoices[i];
@@ -117,8 +103,8 @@ public class Game extends java.util.HashMap implements GameModel {
      *
      * @param key The key to add.
      */
-    private void put(Object key) {
-        super.put(key, null);
+    private void put(String key) {
+        put(key, null);
     }
 
 
@@ -128,10 +114,8 @@ public class Game extends java.util.HashMap implements GameModel {
      * @return Set of keys.
      */
     public java.util.Set unsetValues() {
-        java.util.Iterator keysIt = keySet().iterator();
-        java.util.TreeSet keysWithoutValue = new java.util.TreeSet();
-        while (keysIt.hasNext()) {
-            String thisKey = (String) keysIt.next();
+        TreeSet<String> keysWithoutValue = new TreeSet<String>();
+        for (String thisKey : keySet()) {
             if (get(thisKey) == null) {
                 keysWithoutValue.add(thisKey);
             }
@@ -148,24 +132,12 @@ public class Game extends java.util.HashMap implements GameModel {
      * @param res The result to be added
      * @return The previous value (Or null if there was not any previous)
      */
-    public Object addResult(Object key, Result res) throws Exception {
+    public Object addResult(String key, Result res) throws Exception {
         if (!containsKey(key)) throw new Exception("The key must already be in the map.");
-        java.util.ArrayList choices = getChoiceNums(key.toString());
-        res.setChoice(0, ((Integer) choices.get(0)).intValue());
-        res.setChoice(1, ((Integer) choices.get(1)).intValue());
+        List<Integer> choices = getChoiceNumbers(key);
+        res.setChoice(0, choices.get(0));
+        res.setChoice(1, choices.get(1));
         return put(key, res);
-    }
-
-    public void addResult(int p1Choice, int p2Choice, int p1Score, int p2Score) throws Exception {
-        int[] choices = {p1Choice, p2Choice};
-        int[] scores = {p1Score, p2Score};
-        String key = p1Choice + "-" + p2Choice;
-        Result res = new Result(choices, scores);
-        try {
-            addResult(key, res);
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
 
@@ -175,89 +147,22 @@ public class Game extends java.util.HashMap implements GameModel {
      * @return boolean Are all results in place.
      */
     public boolean ready() {
-        if (unsetValues().isEmpty() && parser != null) return parser.ready();
-        else return false;
+        return unsetValues().isEmpty() && parser != null && parser.ready();
     }
 
 
     /**
      * Pitch the combatants against each other
      *
-     * @param combatants An array of bitStrings
-     * @param warSoFar   The history of these two strings
+     * @param warSoFar The history of these two strings
      * @return The result from this battle
      */
     public Result doRound(BitString p1, BitString p2, ArrayList warSoFar) {
-        String playerChoices = new String();
+        String playerChoices = "";
         playerChoices += (parser.parse(p1, warSoFar, 1));
         playerChoices += "-";
         playerChoices += (parser.parse(p2, warSoFar, 2));
-        return (Result) get(new String(playerChoices));
+        return get(playerChoices);
     }
 
-
-//     
-//     public void testAddScores(com.danmidwood.danimals.BitString[] combatants, ArrayList results) {
-//         for (int i=0; i<results.size(); i++) {
-//             for (int j=0; j<combatants.length; j++) {
-//                 int thisScore = ((com.danmidwood.danimals.Result)results.get(i)).getScore(j+1);
-//                 combatants[j].addScore(thisScore);
-//             }
-//         }
-//     }
-
-
-//     public void testBuild()
-//     {
-//         int[] ccChoices = {0, 0};
-//         int[] ccOutcome = {3,3};
-//         com.danmidwood.danimals.Result cc = new com.danmidwood.danimals.Result(ccChoices, ccOutcome);
-//         int[] cdChoices = {0, 1};
-//         int[] cdOutcome = {0,5};
-//         com.danmidwood.danimals.Result cd = new com.danmidwood.danimals.Result(cdChoices, cdOutcome);
-//         int[] ddChoices = {1, 1};
-//         int[] ddOutcome = {1,1};
-//         com.danmidwood.danimals.Result dd = new com.danmidwood.danimals.Result(ddChoices, ddOutcome);
-//         int[] dcChoices = {1, 0};
-//         int[] dcOutcome = {5,0};
-//         com.danmidwood.danimals.Result dc = new com.danmidwood.danimals.Result(dcChoices, dcOutcome);
-//         try {
-//             addResult(new String("1-0"), dc);
-//             addResult(new String("0-1"), cd);
-//             addResult(new String("1-1"), dd);
-//             addResult(new String("0-0"), cc);
-//         } catch (Exception e) {
-//             System.out.println(e.toString());
-//         }
-//         if(allResultsSet()) System.out.println("All results correctly set up");
-//         try {
-//             addRule(0, 0, 8);
-//             addRule(1, 8, 16);
-//             //addRule(1,17,32,1,0);
-//         } catch (Exception e) {
-//             System.out.println(e.toString());
-//         }       
-//     }
-
-//     public void testWar(com.danmidwood.danimals.BitString[] bits) {
-//         ArrayList results = testDoWar(bits, 10);
-//         for (int i=0; i<results.size(); i++) {
-//             System.out.println(results.get(i).toString());
-//         }        
-//     }
-
-//     /**
-//      * Method to start a round of battles between bitStrings
-//      * @param combatants The bitstrings involved
-//      * @param rounds How many battles to fight
-//      * @return ArrayList Results of each battle in the war
-//      */
-//     public ArrayList testDoWar(com.danmidwood.danimals.BitString[] combatants, int rounds) {
-//         ArrayList allRounds = new ArrayList();
-//         for (int i=0; i<rounds; i++) {
-//             System.out.println("Round: " + (i+1));
-//         //    allRounds.add(doBattle(combatants,allRounds));
-//         }
-//         return allRounds;
-//     }    
 }

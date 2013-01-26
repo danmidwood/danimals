@@ -1,11 +1,5 @@
 package com.danmidwood.danimals;
 
-/**
- * Write a description of class com.danmidwood.danimals.Clause here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class Clause {
     int howFarBack;
     int oppChoice;
@@ -20,12 +14,9 @@ public class Clause {
             return false;
         } else {
             Result prevRes = (Result) history.get(history.size() - howFarBack);
-            boolean rtn = (prevRes.getChoice(opponentPlayerNo) == oppChoice);
-            return rtn;
+            return (prevRes.getChoice(opponentPlayerNo) == oppChoice);
         }
     }
-
-    //private String getChoice() {
 
 
     public String toString() {

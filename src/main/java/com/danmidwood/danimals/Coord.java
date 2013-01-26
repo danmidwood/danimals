@@ -1,29 +1,15 @@
 package com.danmidwood.danimals;
 
-/**
- * Write a description of class com.danmidwood.danimals.Coord here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class Coord implements Cloneable {
     private int row;
     private int col;
 
-    /**
-     * Constructor for objects of class Key
-     */
+
     public Coord(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-//     public int compareTo(Object objectToCompare) {
-//         com.danmidwood.danimals.Coord otherCoord = (com.danmidwood.danimals.Coord)objectToCompare;
-//         int otherCol = otherCoord.getCol();
-//         int otherRow = otherCoord.getRow();
-//         if (matchCols && matchRows) return 0; else return 1;
-//     }
 
     public int hashCode() {
         int rowCode = row * 10000000;

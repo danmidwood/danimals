@@ -1,19 +1,8 @@
 package com.danmidwood.danimals;
 
-/**
- * Write a description of class com.danmidwood.danimals.Section here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class Section {
     int fromIndex;
     int toIndex;
-
-    public Section() {
-        this.fromIndex = 0;
-        this.toIndex = 50;
-    }
 
 
     public Section(int fromIndex, int toIndex) throws Exception {

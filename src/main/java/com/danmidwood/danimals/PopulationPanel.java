@@ -7,18 +7,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 
-/**
- * Write a description of class com.danmidwood.danimals.PopulationPanel here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class PopulationPanel extends JSplitPane implements CellSelectionListener, TableModelListener {
 
     static String FITNESS = "Fitness";
 
     DefaultTableModel stats = new DefaultTableModel(new String[]{"", "Selected", "Total", "Average", "Minimum", "Maximum", "Colour"}, 0);
-    String rowNames;
     BitGrid bg;
     Population pop;
     JPanel bsInfo = new JPanel(new BorderLayout());
@@ -36,10 +29,6 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
         updateDetails();
     }
 
-    public RuleParser getParser() {
-        return parser;
-    }
-
     public BitGrid getBitGrid() {
         return bg;
     }
@@ -49,16 +38,10 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
         setup();
     }
 
-    public Population getPopulation() {
-        return pop;
-    }
-
-
     private void setup() {
         bg = new BitGrid(pop);
         bg.addCellSelectionListener(this);
-        JScrollPane scroley = new JScrollPane(bg);
-        add(bg);//scroley);
+        add(bg);
         stats.addTableModelListener(this);
         popInfo.setModel(stats);
         popInfo.addCellSelectionListener(this);
@@ -70,7 +53,7 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
         tc.setCellEditor(cp);
         bsInfo.add(new JScrollPane(popInfo), BorderLayout.CENTER);
         bsInfo.add(selectedString, BorderLayout.NORTH);
-        add(bsInfo);//, BorderLayout.SOUTH);
+        add(bsInfo);
 
     }
 
@@ -82,13 +65,12 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
             int rowCount = 0;
             mod.setValueAt(FITNESS, rowCount++, StatTable.ROW_NAME);
             Object[] choices = parser.getChoices();
-            java.util.ArrayList[] rules = parser.getRules();
+            java.util.List<java.util.List<Rule>> rules = parser.getRules();
             for (int choiceIndex = 0; choiceIndex < choices.length; choiceIndex++) {
                 mod.setValueAt(choices[choiceIndex], rowCount++, StatTable.ROW_NAME);
-                java.util.Iterator thisChoicesRules = rules[choiceIndex].iterator();
-                while (thisChoicesRules.hasNext()) {
+                for (Object o : rules.get(choiceIndex)) {
                     mod.setValueAt(ColorPicker.NO_COLOR, rowCount, StatTable.COLOR);
-                    Rule thisRule = (Rule) thisChoicesRules.next();
+                    Rule thisRule = (Rule) o;
                     mod.setValueAt(thisRule, rowCount++, StatTable.ROW_NAME);
                 }
             }
@@ -116,22 +98,22 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
                         if (rowType == FITNESS) {
                             double fitness = thisString.getFitness();
                             if (processedStrings == 1) {
-                                popInfo.setValueAt(new Double(fitness), rowNo, StatTable.TOTAL);
-                                popInfo.setValueAt(new Double(fitness), rowNo, StatTable.AVERAGE);
-                                popInfo.setValueAt(new Double(fitness), rowNo, StatTable.MIN);
-                                popInfo.setValueAt(new Double(fitness), rowNo, StatTable.MAX);
+                                popInfo.setValueAt(fitness, rowNo, StatTable.TOTAL);
+                                popInfo.setValueAt(fitness, rowNo, StatTable.AVERAGE);
+                                popInfo.setValueAt(fitness, rowNo, StatTable.MIN);
+                                popInfo.setValueAt(fitness, rowNo, StatTable.MAX);
                             } else {
                                 Double oldTotal = (Double) popInfo.getValueAt(rowNo, StatTable.TOTAL);
                                 Double oldMin = (Double) popInfo.getValueAt(rowNo, StatTable.MIN);
                                 Double oldMax = (Double) popInfo.getValueAt(rowNo, StatTable.MAX);
-                                Double newTotal = new Double(oldTotal.doubleValue() + fitness);
+                                Double newTotal = oldTotal + fitness;
                                 popInfo.setValueAt(newTotal, rowNo, StatTable.TOTAL);
-                                Double newAvg = new Double(newTotal.doubleValue() / processedStrings);
+                                Double newAvg = newTotal / processedStrings;
                                 popInfo.setValueAt(newAvg, rowNo, StatTable.AVERAGE);
-                                if (fitness < oldMin.doubleValue())
-                                    popInfo.setValueAt(new Double(fitness), rowNo, StatTable.MIN);
-                                if (fitness > oldMax.doubleValue())
-                                    popInfo.setValueAt(new Double(fitness), rowNo, StatTable.MAX);
+                                if (fitness < oldMin)
+                                    popInfo.setValueAt(fitness, rowNo, StatTable.MIN);
+                                if (fitness > oldMax)
+                                    popInfo.setValueAt(fitness, rowNo, StatTable.MAX);
                             }
                         } else if (rowType instanceof Rule) {
                             Rule thisRule = (Rule) rowType;
@@ -141,22 +123,22 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
                             // If it is the first string then just reset the data, do not
                             // get the old data
                             if (processedStrings == 1) {
-                                popInfo.setValueAt(new Double(value), rowNo, StatTable.TOTAL);
-                                popInfo.setValueAt(new Double(value), rowNo, StatTable.AVERAGE);
-                                popInfo.setValueAt(new Double(value), rowNo, StatTable.MIN);
-                                popInfo.setValueAt(new Double(value), rowNo, StatTable.MAX);
+                                popInfo.setValueAt(value, rowNo, StatTable.TOTAL);
+                                popInfo.setValueAt(value, rowNo, StatTable.AVERAGE);
+                                popInfo.setValueAt(value, rowNo, StatTable.MIN);
+                                popInfo.setValueAt(value, rowNo, StatTable.MAX);
                             } else {
                                 Double oldTotal = (Double) popInfo.getValueAt(rowNo, StatTable.TOTAL);
                                 Double oldMin = (Double) popInfo.getValueAt(rowNo, StatTable.MIN);
                                 Double oldMax = (Double) popInfo.getValueAt(rowNo, StatTable.MAX);
-                                Double newTotal = new Double(oldTotal.doubleValue() + value);
+                                Double newTotal = oldTotal + value;
                                 popInfo.setValueAt(newTotal, rowNo, StatTable.TOTAL);
-                                Double newAvg = new Double(newTotal.doubleValue() / processedStrings);
+                                Double newAvg = newTotal / processedStrings;
                                 popInfo.setValueAt(newAvg, rowNo, StatTable.AVERAGE);
-                                if (value < oldMin.doubleValue())
-                                    popInfo.setValueAt(new Double(value), rowNo, StatTable.MIN);
-                                if (value > oldMax.doubleValue())
-                                    popInfo.setValueAt(new Double(value), rowNo, StatTable.MAX);
+                                if (value < oldMin)
+                                    popInfo.setValueAt(value, rowNo, StatTable.MIN);
+                                if (value > oldMax)
+                                    popInfo.setValueAt(value, rowNo, StatTable.MAX);
                             }
                         }
                     }
@@ -173,13 +155,13 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
         for (int rowNo = 0; rowNo < popInfo.getRowCount(); rowNo++) {
             Object rowType = dtm.getValueAt(rowNo, 0);
             if (rowType == FITNESS) {
-                popInfo.setValueAt(new Double(thisString.getFitness()), rowNo, col);
+                popInfo.setValueAt(thisString.getFitness(), rowNo, col);
             } else if (rowType instanceof Rule) {
                 Rule thisRule = (Rule) rowType;
                 int toIndex = thisRule.getToIndex();
                 int fromIndex = thisRule.getFromIndex();
                 double value = thisString.doubleValue(fromIndex, toIndex);
-                popInfo.setValueAt(new Double(value), rowNo, col);
+                popInfo.setValueAt(value, rowNo, col);
             }
         }
     }
@@ -194,7 +176,7 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
             Integer colorNo = (Integer) colorObj;
             BitStringDisplay.removeSection((Section) popInfo.getValueAt(row, StatTable.ROW_NAME));
             try {
-                BitStringDisplay.addSection(colorNo.intValue(), (Section) popInfo.getValueAt(row, StatTable.ROW_NAME));
+                BitStringDisplay.addSection(colorNo, (Section) popInfo.getValueAt(row, StatTable.ROW_NAME));
             } catch (Exception e) {
                 System.out.println("Error in colour specification : " + e.toString());
             }

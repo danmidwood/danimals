@@ -1,22 +1,9 @@
 package com.danmidwood.danimals;
 
-/**
- * Write a description of class com.danmidwood.danimals.Result here.
- *
- * @author Dan Midwood
- * @version 1
- */
+
 public class Result {
     private int scores[];
     private int choices[];
-
-    /**
-     * Constructor for objects of class com.danmidwood.danimals.Result
-     */
-    public Result(int[] choices, int[] scores) {
-        this.scores = scores;
-        this.choices = choices;
-    }
 
     public Result() {
         scores = new int[2];
@@ -27,31 +14,18 @@ public class Result {
         scores[playerNo] = newScore;
     }
 
-    /**
-     * Get the score achieved by the specified player
-     *
-     * @param int playerNo
-     * @return int the score achieved
-     */
     public int getScore(int playerNo) throws ArrayIndexOutOfBoundsException {
         try {
             return get(playerNo, scores);
-        } catch (invalidPlayerNo e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             throw e;
         }
     }
 
-
-    /**
-     * Get the score achieved by the specified player
-     *
-     * @param int playerNo
-     * @return int the score achieved
-     */
     public int getChoice(int playerNo) {
         try {
             return get(playerNo, choices);
-        } catch (invalidPlayerNo e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             throw e;
         }
     }
@@ -60,28 +34,13 @@ public class Result {
         choices[playerNo] = choice;
     }
 
-    /**
-     * Get the a players value from the array
-     *
-     * @param int   playerNo
-     * @param array the array to search
-     * @return int the value of that player from the array
-     */
+
     private int get(int playerNo, int[] array) throws ArrayIndexOutOfBoundsException {
         try {
             return array[playerNo];
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new invalidPlayerNo("Please enter a valid player number (1 - " + array.length + ") : " + playerNo);
+            throw new ArrayIndexOutOfBoundsException("Please enter a valid player number (1 - " + array.length + ") : " + playerNo);
         }
-    }
-
-    /**
-     * How many players are in this game?
-     *
-     * @return The number of players
-     */
-    public int getPlayerCount() {
-        return scores.length;
     }
 
 
@@ -96,11 +55,6 @@ public class Result {
 
 }
 
-class invalidPlayerNo extends ArrayIndexOutOfBoundsException {
-    public invalidPlayerNo(String msg) {
-        super(msg);
-    }
-}
     
     
     

@@ -3,17 +3,12 @@ package com.danmidwood.danimals;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 
-/**
- * Write a description of class com.danmidwood.danimals.GameDesigner here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class GameDesigner extends JFrame {
     ActionListener listen;
     Game game;
-    java.util.TreeMap resRefs = new java.util.TreeMap();
+    java.util.TreeMap<String, ResultPanel> resRefs = new java.util.TreeMap<String, ResultPanel>();
     static public String READY = "The game is now ready";
 
     public GameDesigner(Game g) {
@@ -21,10 +16,9 @@ public class GameDesigner extends JFrame {
         setSize(100, 400);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.game = g;
-        java.util.Set keys = game.keySet();
-        java.util.Iterator it = keys.iterator();
-        while (it.hasNext()) {
-            addPanel(it.next());
+        Set<String> keys = game.keySet();
+        for (String key : keys) {
+            addPanel(key);
         }
         JPanel bottom = new JPanel();
         final JButton confirm = new JButton("Confirm");
@@ -33,10 +27,8 @@ public class GameDesigner extends JFrame {
         confirm.addActionListener(
                 new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent ae) {
-                        java.util.Iterator allRes = resRefs.keySet().iterator();
-                        while (allRes.hasNext()) {
-                            Object thisKey = allRes.next();
-                            ResultPanel thisResPan = (ResultPanel) resRefs.get(thisKey);
+                        for (String thisKey : resRefs.keySet()) {
+                            ResultPanel thisResPan = resRefs.get(thisKey);
                             Result thisRes = thisResPan.getResult();
                             try {
                                 game.addResult(thisKey, thisRes);
@@ -55,14 +47,10 @@ public class GameDesigner extends JFrame {
         listen = al;
     }
 
-    public void removeActionListener() {
-        listen = null;
-    }
 
-
-    public void addPanel(Object key) {
-        String title = game.getChoiceNames(key.toString()).toString();
-        Result newRes = (Result) game.get(key);
+    public void addPanel(String key) {
+        String title = game.getChoiceNames(key).toString();
+        Result newRes = game.get(key);
         if (newRes == null) newRes = new Result();
         ResultPanel newPane = new ResultPanel(newRes, title);
         resRefs.put(key, newPane);

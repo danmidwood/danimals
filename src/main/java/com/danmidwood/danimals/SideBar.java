@@ -5,12 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Write a description of class com.danmidwood.danimals.SideBar here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class SideBar extends JPanel implements ActionListener {
     JComboBox selector = new JComboBox();
     CardLayout cards = new CardLayout();

@@ -18,8 +18,8 @@ class ClassRenderer extends JLabel implements ListCellRenderer, Icon {
             Class cls = (Class) value;
             setText(cls.getName());
             try {
-                Selection selec = (Selection) cls.newInstance();
-                if (selec.hasParams()) {
+                Selection selection = (Selection) cls.newInstance();
+                if (selection.hasParams()) {
                     setIcon(this);
                 } else setIcon(null);
             } catch (Exception e) {

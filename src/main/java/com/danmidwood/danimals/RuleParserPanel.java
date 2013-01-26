@@ -3,12 +3,7 @@ package com.danmidwood.danimals;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Write a description of class com.danmidwood.danimals.RuleParserPanel here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class RuleParserPanel extends JPanel implements java.awt.event.ActionListener {
     RuleParser rp;
     JList rules;
@@ -125,8 +120,8 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
 
     private void addRule() {
         int outcome = choices.getSelectedIndex();
-        int fromIndex = ((Integer) from.getValue()).intValue();
-        int toIndex = ((Integer) to.getValue()).intValue();
+        int fromIndex = (Integer) from.getValue();
+        int toIndex = (Integer) to.getValue();
         try {
             rp.addRule(outcome, fromIndex, toIndex);
         } catch (Exception e) {
@@ -156,7 +151,7 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
 
 
     private void addClause() {
-        int back = ((Integer) howFarBack.getValue()).intValue();
+        int back = (Integer) howFarBack.getValue();
         int oppChose = oppChoice.getSelectedIndex();
         try {
             rp.addClause(currentRule, back, oppChose);
