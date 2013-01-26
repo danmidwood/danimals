@@ -1,4 +1,4 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
 
 import com.danmidwood.danimals.selection.Selection;
 

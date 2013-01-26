@@ -1,4 +1,8 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
+
+import com.danmidwood.danimals.BitString;
+import com.danmidwood.danimals.Coord;
+import com.danmidwood.danimals.Result;
 
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;

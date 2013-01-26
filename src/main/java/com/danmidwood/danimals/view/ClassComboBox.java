@@ -1,4 +1,5 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

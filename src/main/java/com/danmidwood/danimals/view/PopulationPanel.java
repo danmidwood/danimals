@@ -1,4 +1,8 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
+
+import com.danmidwood.danimals.BitString;
+import com.danmidwood.danimals.Rule;
+import com.danmidwood.danimals.Section;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;

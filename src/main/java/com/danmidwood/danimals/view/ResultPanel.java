@@ -1,9 +1,11 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
+
+import com.danmidwood.danimals.Result;
 
 import javax.swing.*;
 
 /**
- * Write a description of class com.danmidwood.danimals.ResultPanel here.
+ * Write a description of class com.danmidwood.danimals.view.ResultPanel here.
  *
  * @author (your name)
  * @version (a version number or a date)

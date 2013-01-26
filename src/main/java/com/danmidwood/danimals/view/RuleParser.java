@@ -1,4 +1,8 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
+
+import com.danmidwood.danimals.BitString;
+import com.danmidwood.danimals.Clause;
+import com.danmidwood.danimals.Rule;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;

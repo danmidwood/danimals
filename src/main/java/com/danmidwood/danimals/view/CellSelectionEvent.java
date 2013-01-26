@@ -1,4 +1,4 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
 
 public class CellSelectionEvent extends java.util.EventObject {
     int col;

@@ -1,6 +1,9 @@
 package com.danmidwood.danimals;
 
 
+import com.danmidwood.danimals.view.RuleParser;
+import com.danmidwood.danimals.view.RuleParserPanel;
+
 import java.util.ArrayList;
 import java.util.List;
 

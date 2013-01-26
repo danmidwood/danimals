@@ -1,5 +1,10 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.view.RuleParser;
+import com.danmidwood.danimals.view.RuleParserPanel;
+import com.danmidwood.danimals.view.SelectionPanel;
+import com.danmidwood.danimals.view.SideBar;
+
 import java.util.ArrayList;
 import java.util.List;
 

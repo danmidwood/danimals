@@ -2,7 +2,7 @@ package com.danmidwood.danimals.selection;
 
 import com.danmidwood.danimals.BitString;
 import com.danmidwood.danimals.Coord;
-import com.danmidwood.danimals.Population;
+import com.danmidwood.danimals.view.Population;
 
 public class Random implements Selection {
 

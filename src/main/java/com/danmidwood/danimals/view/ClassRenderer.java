@@ -1,4 +1,4 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +14,9 @@ class ClassRenderer extends JLabel implements ListCellRenderer {
             int index,
             boolean isSelected,
             boolean cellHasFocus) {
-        setText(value.getClass().getSimpleName());
-        setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
-        setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
+        if (value != null) {
+            setText(value.getClass().getSimpleName());
+        }
 
         return this;
     }

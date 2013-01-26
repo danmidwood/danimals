@@ -3,6 +3,7 @@ package com.danmidwood.danimals;
 import com.danmidwood.danimals.selection.Random;
 import com.danmidwood.danimals.selection.Roulette;
 import com.danmidwood.danimals.selection.Selection;
+import com.danmidwood.danimals.view.ClassComboBox;
 
 /**
  * The test class com.danmidwood.danimals.ClassComboPanelTest.

@@ -1,5 +1,8 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.view.GraphicalBitString;
+import com.danmidwood.danimals.view.Population;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

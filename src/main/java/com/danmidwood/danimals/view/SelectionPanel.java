@@ -1,5 +1,6 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
 
+import com.danmidwood.danimals.Coord;
 import com.danmidwood.danimals.selection.Selection;
 
 import javax.swing.*;

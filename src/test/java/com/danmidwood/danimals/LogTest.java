@@ -1,5 +1,7 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.view.Log;
+
 import javax.swing.*;
 
 /**

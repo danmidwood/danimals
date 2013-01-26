@@ -1,4 +1,4 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;

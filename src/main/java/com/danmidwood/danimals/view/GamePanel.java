@@ -1,4 +1,8 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
+
+import com.danmidwood.danimals.Game;
+import com.danmidwood.danimals.GameModel;
+import com.danmidwood.danimals.Result;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

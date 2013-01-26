@@ -1,4 +1,4 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -34,13 +34,9 @@ public class StatTable extends JTable {
     }
 
     public void fireNewCellSelected(CellSelectionEvent e) {
-        try {
-            CellSelectionListener[] tableModelListeners = listeners.getListeners(CellSelectionListener.class);
-            for (CellSelectionListener tableModelListener : tableModelListeners) {
-                tableModelListener.cellSelectionChanged(e);
-            }
-        } catch (NullPointerException n) {
-            System.out.println("A non-bitstring has been selected, no need to report error. just carry on regardless.");
+        CellSelectionListener[] tableModelListeners = listeners.getListeners(CellSelectionListener.class);
+        for (CellSelectionListener tableModelListener : tableModelListeners) {
+            tableModelListener.cellSelectionChanged(e);
         }
     }
 

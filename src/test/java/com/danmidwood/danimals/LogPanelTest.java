@@ -1,5 +1,8 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.view.Log;
+import com.danmidwood.danimals.view.LogPanel;
+
 /**
  * The test class com.danmidwood.danimals.LogPanelTest.
  *

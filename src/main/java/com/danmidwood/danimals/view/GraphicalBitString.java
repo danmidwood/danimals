@@ -1,4 +1,7 @@
-package com.danmidwood.danimals;
+package com.danmidwood.danimals.view;
+
+import com.danmidwood.danimals.BitString;
+import com.danmidwood.danimals.Section;
 
 public class GraphicalBitString extends BitString implements javax.swing.Icon {
     int width = 0;

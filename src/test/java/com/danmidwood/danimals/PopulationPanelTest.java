@@ -1,5 +1,9 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.view.BitGrid;
+import com.danmidwood.danimals.view.Population;
+import com.danmidwood.danimals.view.PopulationPanel;
+
 /**
  * The test class com.danmidwood.danimals.PopulationPanelTest.
  *

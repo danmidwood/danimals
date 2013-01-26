@@ -1,5 +1,7 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.view.EnvironmentPanel;
+
 import javax.swing.*;
 
 /**

@@ -1,5 +1,7 @@
 package com.danmidwood.danimals;
 
+import com.danmidwood.danimals.view.GamePanel;
+
 /**
  * The test class com.danmidwood.danimals.GamePanelTest.
  *
