@@ -2,6 +2,7 @@ package com.danmidwood.danimals;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 
 public class RuleParserPanel extends JPanel implements java.awt.event.ActionListener {
@@ -31,8 +32,8 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
         JPanel inputs = new JPanel(new GridLayout(3, 1));
         inputs.setBorder(new javax.swing.border.TitledBorder("Parse rules"));
         // The choices available for the bit strings
-        Object[] choicesToAdd = rp.getChoices();
-        choices = new JComboBox(choicesToAdd);
+        List<String> choicesToAdd = rp.getChoices();
+        choices = new JComboBox(choicesToAdd.toArray());
         choices.addActionListener(this);
         JPanel choiceHolder = new JPanel();
         choiceHolder.setBorder(new javax.swing.border.TitledBorder("Game choice"));
@@ -85,7 +86,7 @@ public class RuleParserPanel extends JPanel implements java.awt.event.ActionList
         howFarBackHolder.add(howFarBack);
         JPanel opponentChoiceHolder = new JPanel();
         opponentChoiceHolder.setBorder(new javax.swing.border.TitledBorder("To bit"));
-        oppChoice = new JComboBox(rp.getChoices());
+        oppChoice = new JComboBox(rp.getChoices().toArray());
         opponentChoiceHolder.add(oppChoice);
 
         inputs.setLayout(new GridLayout(2, 2, 2, 2));

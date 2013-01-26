@@ -6,6 +6,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.util.List;
 
 public class PopulationPanel extends JSplitPane implements CellSelectionListener, TableModelListener {
 
@@ -63,10 +64,10 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
             mod.setRowCount(noOfRules + 3);
             int rowCount = 0;
             mod.setValueAt(FITNESS, rowCount++, StatTable.ROW_NAME);
-            Object[] choices = parser.getChoices();
-            java.util.List<java.util.List<Rule>> rules = parser.getRules();
-            for (int choiceIndex = 0; choiceIndex < choices.length; choiceIndex++) {
-                mod.setValueAt(choices[choiceIndex], rowCount++, StatTable.ROW_NAME);
+            List<String> choices = parser.getChoices();
+            List<List<Rule>> rules = parser.getRules();
+            for (int choiceIndex = 0; choiceIndex < choices.size(); choiceIndex++) {
+                mod.setValueAt(choices.get(choiceIndex), rowCount++, StatTable.ROW_NAME);
                 for (Object o : rules.get(choiceIndex)) {
                     mod.setValueAt(ColorPicker.NO_COLOR, rowCount, StatTable.COLOR);
                     Rule thisRule = (Rule) o;

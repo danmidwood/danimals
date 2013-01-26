@@ -1,5 +1,8 @@
 package com.danmidwood.danimals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The test class com.danmidwood.danimals.SideBarTest.
  *
@@ -39,7 +42,9 @@ public class SideBarTest extends junit.framework.TestCase {
         reproSelec.add(new SelectionPanel(1, javax.swing.BoxLayout.Y_AXIS, java.awt.BorderLayout.NORTH));
         reproSelec.add(new SelectionPanel(2, javax.swing.BoxLayout.Y_AXIS, java.awt.BorderLayout.NORTH));
         sb.addCard("com.danmidwood.danimals.Selection", reproSelec);
-        String[] choices = {"Cooperate", "Defect"};
+        List<String> choices = new ArrayList<String>();
+        choices.add("Cooperate");
+        choices.add("Defect");
         RuleParser rp = new RuleParser(choices);
         RuleParserPanel rpp = new RuleParserPanel(rp);
         sb.addCard("Rules", rpp);

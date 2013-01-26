@@ -8,14 +8,12 @@ import java.util.TreeSet;
 import static java.util.Arrays.asList;
 
 public class Game extends java.util.HashMap<String, Result> implements GameModel {
-    String[] choices;
+
     RuleParser parser;
 
 
-    public Game(String[] theChoices) {
-        super(new Double(Math.pow(theChoices.length, 2)).intValue(), 1); // Set the size
-        choices = theChoices;
-
+    public Game() {
+        super(4, 1); // Set the size
         addKeys();
     }
 
@@ -28,7 +26,7 @@ public class Game extends java.util.HashMap<String, Result> implements GameModel
             String next = it.next();
             if (next != null) {
                 int value = Integer.parseInt(next);
-                if (value >= 0 && value < choices.length) {
+                if (value >= 0 && value < 2) {
                     rtn.add(value);
                 }
             }
@@ -36,22 +34,24 @@ public class Game extends java.util.HashMap<String, Result> implements GameModel
         return rtn;
     }
 
+    public ArrayList<String> getChoiceNames() {
+        ArrayList<String> names = new ArrayList<String>();
+
+        names.add("Cooperate");
+        names.add("Defect");
+
+        return names;
+    }
+
     public ArrayList<String> getChoiceNames(String input) {
         List<Integer> nums = getChoiceNumbers(input);
         ArrayList<String> names = new ArrayList<String>();
         for (Integer choiceNo : nums) {
-            names.add(getChoice(choiceNo));
+            names.add(getChoiceNames().get(choiceNo));
         }
         return names;
     }
 
-    public String getChoice(int choiceNo) {
-        return choices[choiceNo];
-    }
-
-    public Object[] getChoices() {
-        return choices;
-    }
 
     public void setParser(RuleParser newParser) {
         this.parser = newParser;
@@ -71,7 +71,7 @@ public class Game extends java.util.HashMap<String, Result> implements GameModel
      */
     private void addKeys(int index, int[] userChoices) {
         if (index == userChoices.length - 1) {
-            for (int thisChoice = 0; thisChoice < choices.length; thisChoice++) {
+            for (int thisChoice = 0; thisChoice < 2; thisChoice++) {
                 userChoices[userChoices.length - 1] = thisChoice;
                 String key = "";
                 for (int i = 0; i < userChoices.length; i++) {
@@ -81,7 +81,7 @@ public class Game extends java.util.HashMap<String, Result> implements GameModel
                 put(key);
             }
         } else {
-            for (int thisChoice = 0; thisChoice < choices.length; thisChoice++) {
+            for (int thisChoice = 0; thisChoice < 2; thisChoice++) {
                 userChoices[index] = thisChoice;
                 addKeys(index + 1, userChoices);
             }

@@ -1,15 +1,12 @@
 package com.danmidwood.danimals;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
 public class GamePanel extends Box implements GameModel, ActionListener {
     Game game;
-    JTextField choiceOne = new JTextField("");
-    JTextField choiceTwo = new JTextField("");
     JButton initialize = new JButton("Create Game");
     JButton define = new JButton("Define Game");
     GameDesigner gd;
@@ -23,18 +20,6 @@ public class GamePanel extends Box implements GameModel, ActionListener {
     }
 
     private void setup() {
-        Dimension prefDim = new Dimension(100, new Double(choiceOne.getPreferredSize().getHeight()).intValue());
-
-
-        JPanel ch1 = new JPanel();
-        ch1.add(choiceOne);
-        ch1.setBorder(new javax.swing.border.TitledBorder("Choice 1"));
-        choiceOne.setPreferredSize(prefDim);
-
-        JPanel ch2 = new JPanel();
-        ch2.add(choiceTwo);
-        ch2.setBorder(new javax.swing.border.TitledBorder("Choice 2"));
-        choiceTwo.setPreferredSize(prefDim);
 
         JPanel buttons = new JPanel();
         buttons.setBorder(new javax.swing.border.TitledBorder("Create game"));
@@ -44,8 +29,6 @@ public class GamePanel extends Box implements GameModel, ActionListener {
         define.setVisible(false);
         define.addActionListener(this);
 
-        add(ch1);
-        add(ch2);
         add(buttons);
     }
 
@@ -58,10 +41,8 @@ public class GamePanel extends Box implements GameModel, ActionListener {
         Object src = e.getSource();
         String command = e.getActionCommand();
         if (src == initialize) {
-            if (isInputValid(choiceOne.getText())
-                    && isInputValid(choiceTwo.getText()) && !choiceOne.getText().equals(choiceTwo.getText())) {
-                createGame(choiceOne.getText(), choiceTwo.getText());
-            } else System.out.println("Game not created : incomplete information");
+            createGame();
+
         } else if (src == define) defineGame();
         else if (command.equals(GameDesigner.READY)) {
             if (listening != null)
@@ -79,8 +60,6 @@ public class GamePanel extends Box implements GameModel, ActionListener {
     }
 
     private void fireNewGame() {
-        choiceOne.setText(game.getChoice(0).toString());
-        choiceTwo.setText(game.getChoice(1).toString());
         define.setVisible(true);
     }
 
@@ -97,9 +76,8 @@ public class GamePanel extends Box implements GameModel, ActionListener {
     }
 
 
-    public void createGame(String choiceOne, String choiceTwo) {
-        String[] choices = {choiceOne, choiceTwo};
-        game = new Game(choices);
+    public void createGame() {
+        game = new Game();
         fireNewGame();
     }
 

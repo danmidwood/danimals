@@ -19,8 +19,8 @@ public class ResultPanel extends JPanel {
 
         setLayout(new java.awt.GridLayout(2, 3, 10, 0));
         try {
-            pOneScore.setValue(new Integer(res.getScore(0)));
-            pTwoScore.setValue(new Integer(res.getScore(1)));
+            pOneScore.setValue(res.getScore(0));
+            pTwoScore.setValue(res.getScore(1));
         } catch (Exception e) {
             System.out.println(e);
         }

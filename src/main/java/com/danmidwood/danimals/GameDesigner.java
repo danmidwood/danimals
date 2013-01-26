@@ -13,7 +13,7 @@ public class GameDesigner extends JFrame {
 
     public GameDesigner(Game g) {
         super();
-        setSize(100, 400);
+        setSize(200, 500);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         this.game = g;
         Set<String> keys = game.keySet();

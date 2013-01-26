@@ -7,11 +7,11 @@ import java.util.List;
 
 public class RuleParser implements javax.swing.ListModel {
     List<List<Rule>> rules;
-    Object[] choices;
+    List<String> choices;
     int currentChoice = 0;
     ListDataListener ldl = null;
 
-    public RuleParser(Object[] choices) {
+    public RuleParser(List<String> choices) {
         this.choices = choices;
         rules = new ArrayList<List<Rule>>();
         for (int choiceNo = 0; choiceNo < getNoOfChoices(); choiceNo++) {
@@ -20,10 +20,10 @@ public class RuleParser implements javax.swing.ListModel {
     }
 
     public int getNoOfChoices() {
-        return choices.length;
+        return choices.size();
     }
 
-    public Object[] getChoices() {
+    public List<String> getChoices() {
         return choices;
     }
 
@@ -122,7 +122,7 @@ public class RuleParser implements javax.swing.ListModel {
     }
 
     public void setCurrentChoice(int newChoice) {
-        if (newChoice < choices.length && newChoice >= 0) {
+        if (newChoice < choices.size() && newChoice >= 0) {
             currentChoice = newChoice;
             fireContentsChanged();
         }

@@ -96,7 +96,7 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
     private void setupGame() {
         Game thisGame = gamePane.getGame();
         env.setGame(thisGame);
-        RuleParser rp = new RuleParser(thisGame.getChoices());
+        RuleParser rp = new RuleParser(thisGame.getChoiceNames());
         thisGame.setParser(rp);
         popMain.setParser(rp);
         RuleParserPanel rpp = new RuleParserPanel(rp);
