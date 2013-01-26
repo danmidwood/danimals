@@ -4,7 +4,7 @@ import com.danmidwood.danimals.BitString;
 import com.danmidwood.danimals.Coord;
 import com.danmidwood.danimals.Population;
 
-public class Roulette extends Selection {
+public class Roulette implements Selection {
     public Object select(Population pop) {
         int totalFitness = pop.totalFitness();
         int fitnessSoFar = 0;
@@ -19,12 +19,4 @@ public class Roulette extends Selection {
 
     }
 
-
-    public boolean needsChild() {
-        return false;
-    }
-
-    public boolean needsPreselectedString() {
-        return false;
-    }
 }

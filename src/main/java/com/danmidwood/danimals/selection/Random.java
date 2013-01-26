@@ -4,7 +4,7 @@ import com.danmidwood.danimals.BitString;
 import com.danmidwood.danimals.Coord;
 import com.danmidwood.danimals.Population;
 
-public class Random extends Selection {
+public class Random implements Selection {
 
     public Object select(Population pop) {
         Coord thisLocation = new Coord(-1, -1);
@@ -19,13 +19,5 @@ public class Random extends Selection {
         return thisLocation;
     }
 
-
-    public boolean needsChild() {
-        return false;
-    }
-
-    public boolean needsPreselectedString() {
-        return false;
-    }
 
 }

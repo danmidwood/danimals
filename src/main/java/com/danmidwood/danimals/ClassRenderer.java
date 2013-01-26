@@ -1,7 +1,5 @@
 package com.danmidwood.danimals;
 
-import com.danmidwood.danimals.selection.Selection;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,14 +17,6 @@ class ClassRenderer extends JLabel implements ListCellRenderer, Icon {
         if (value instanceof Class) {
             Class cls = (Class) value;
             setText(cls.getName());
-            try {
-                Selection selection = (Selection) cls.newInstance();
-                if (selection.hasParams()) {
-                    setIcon(this);
-                } else setIcon(null);
-            } catch (Exception e) {
-            }
-
         }
         setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
         setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());

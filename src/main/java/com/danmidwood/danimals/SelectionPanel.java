@@ -4,12 +4,10 @@ import com.danmidwood.danimals.selection.Selection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
-public class SelectionPanel extends JPanel implements ActionListener {
-    Box getDetails = Box.createVerticalBox();
+public class SelectionPanel extends JPanel {
     JButton editParam = new JButton("Edit");
     SelectionComboBox scb;
     JViewport vp;
@@ -27,11 +25,10 @@ public class SelectionPanel extends JPanel implements ActionListener {
         JPanel selectionContainer = new JPanel();
         selectionContainer.setLayout(new BoxLayout(selectionContainer, axis));
         scb = new SelectionComboBox(new javax.swing.DefaultComboBoxModel(), playerNo);
-        scb.addActionListener(this);
+
         selectionContainer.add(scb);
         showButton(false);
         add(editParam, buttonPlacement);
-        editParam.addActionListener(this);
         JScrollPane selectionScroll = new JScrollPane(selectionContainer);
         selectionScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         vp = selectionScroll.getViewport();
@@ -42,13 +39,14 @@ public class SelectionPanel extends JPanel implements ActionListener {
         scb.setModel(new javax.swing.DefaultComboBoxModel(obs));
     }
 
+    public boolean isConfigured() {
+        return scb.getSelection() != null;
+    }
+
     public java.util.List<Selection> getAllSelections() {
         ArrayList<Selection> rtn = new ArrayList<Selection>();
         rtn.add(scb.getSelection());
-        while (scb.hasChild()) {
-            scb = scb.getChild();
-            rtn.add(scb.getId(), scb.getSelection());
-        }
+
         rtn.trimToSize();
         return rtn;
     }
@@ -77,49 +75,5 @@ public class SelectionPanel extends JPanel implements ActionListener {
         editParam.setVisible(on);
     }
 
-    public void actionPerformed(java.awt.event.ActionEvent ae) {
-        if (ae.getSource().getClass() == JButton.class) actionOnButton();
-        else if (ae.getSource().getClass() == SelectionComboBox.class) actionOnCombo(ae);
-    }
-
-    public void actionOnCombo(java.awt.event.ActionEvent ae) {
-        try {
-            SelectionComboBox thisCombo = (SelectionComboBox) ae.getSource();
-            //if (thisCombo.isPopupVisible()) return;
-            Selection thisSelection = thisCombo.getSelection();
-            if (thisSelection.needsChild()) {
-                thisCombo.addChild();
-                int newHeight = (new Double(vp.getViewPosition().getY() + thisCombo.getSize().getHeight())).intValue();
-                vp.setViewPosition(new Point(0, newHeight));
-            } else {
-                if (thisCombo.hasChild()) {
-                    thisCombo.removeChild();
-                    vp.setViewPosition(new Point(0, 0));
-                }
-            }
-            showButton(scb.needParams());
-        } catch (Exception ignored) {
-        } // Do nothing
-    }
-
-    private void actionOnButton() {
-        getDetails.removeAll();
-        SelectionComboBox thisCombo = scb;
-        try {
-            getDetails.add(new SelectionParamPanel(thisCombo.getSelection()));
-            while (thisCombo.hasChild()) {
-                SelectionComboBox child = thisCombo.getChild();
-                SelectionParamPanel spp = new SelectionParamPanel(child.getSelection());
-                getDetails.add(spp);
-                thisCombo = child;
-            }
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        JFrame f = new JFrame();
-        f.getContentPane().add(getDetails);
-        f.setSize(100, 100);
-        f.show();
-    }
 
 }

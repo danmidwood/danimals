@@ -127,13 +127,12 @@ public class Danimals extends JFrame implements ActionListener, Runnable {
                 env.setGame((Game) temp);
             }
         }
-        try {
-            if (p1Fight.getAllSelections().size() < 1) System.out.println("player one fight selection is not set");
-            if (p2Fight.getAllSelections().size() < 1) System.out.println("player two fight selection is not set");
-            if (p1Repro.getAllSelections().size() < 1) System.out.println("player one fight selection is not set");
-            if (p2Repro.getAllSelections().size() < 1) System.out.println("player two fight selection is not set");
-        } catch (Exception e) {
-        } //System.out.println("Could not start, error in selections : " + e.toString()); return; }
+
+        if (!p1Fight.isConfigured()) System.out.println("player one fight selection is not set");
+        if (!p2Fight.isConfigured()) System.out.println("player two fight selection is not set");
+        if (!p1Repro.isConfigured()) System.out.println("player one fight selection is not set");
+        if (!p2Repro.isConfigured()) System.out.println("player two fight selection is not set");
+
 
         if (temp == null) System.out.println("The game is not defined");
         else if (!((Game) temp).ready()) System.out.println("The game is not ready");
