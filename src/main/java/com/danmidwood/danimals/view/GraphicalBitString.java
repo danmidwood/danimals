@@ -1,15 +1,20 @@
 package com.danmidwood.danimals.view;
 
 import com.danmidwood.danimals.BitString;
+import com.danmidwood.danimals.BitStringParser;
 import com.danmidwood.danimals.Section;
+
+import java.util.BitSet;
 
 public class GraphicalBitString extends BitString implements javax.swing.Icon {
     int width = 0;
     int height = 0;
 
+    private final BitStringParser parser = new BitStringParser();
 
-    public GraphicalBitString(int size) {
-        super(size);
+
+    public GraphicalBitString(BitSet self) {
+        super(self);
     }
 
 
@@ -23,9 +28,9 @@ public class GraphicalBitString extends BitString implements javax.swing.Icon {
 
 
     public void paintIcon(java.awt.Component c, java.awt.Graphics g, int x, int y) {
-        float red = getColour(BitStringDisplay.R);
-        float green = getColour(BitStringDisplay.G);
-        float blue = getColour(BitStringDisplay.B);
+        int red = getColour(BitStringDisplay.R);
+        int green = getColour(BitStringDisplay.G);
+        int blue = getColour(BitStringDisplay.B);
         java.awt.Color thisColour = new java.awt.Color(red, green, blue);
 
         width = BitStringDisplay.getIconWidth(); //new Double(d.getWidth()).intValue();
@@ -46,19 +51,19 @@ public class GraphicalBitString extends BitString implements javax.swing.Icon {
 
     }
 
-    public float getColour(int colour) {
+    public int getColour(int colour) {
         try {
             java.util.Iterator thisColoursSections = BitStringDisplay.getSections(colour).iterator();
             int divider = 0;
-            float total = 0;
+            int total = 0;
             while (thisColoursSections.hasNext()) {
                 divider++;
                 Section curSec = (Section) thisColoursSections.next();
                 int fromIndex = curSec.getFromIndex();
                 int toIndex = curSec.getToIndex();
                 int size = toIndex - fromIndex;
-                float max = (new Double(Math.pow(2, size))).floatValue();
-                total += (new Double(doubleValue(fromIndex, toIndex))).floatValue() / max;
+                double max = Math.pow(2, size);
+                total += parser.value(this.getSubBitSet(fromIndex, toIndex)) / max;
             }
             if (total == 0) return total;
             else return total / divider;

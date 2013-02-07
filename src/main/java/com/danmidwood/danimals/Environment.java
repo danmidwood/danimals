@@ -6,6 +6,7 @@ import com.danmidwood.danimals.view.Population;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.BitSet;
 
 
 public class Environment {
@@ -41,10 +42,10 @@ public class Environment {
         try {
             //make random points
             Integer[] crossOverPoints = getCrossOverPoints().toArray(new Integer[getCrossOverPoints().size()]);
-            BitString pa = (BitString) pop.getValueAt(paLocation);
-            BitString ma = (BitString) pop.getValueAt(maLocation);
-            GraphicalBitString sprog1 = new GraphicalBitString(getStringSize());
-            GraphicalBitString sprog2 = new GraphicalBitString(getStringSize());
+            BitSet pa = pop.getValueAt(paLocation).getBits();
+            BitSet ma = pop.getValueAt(maLocation).getBits();
+            BitSet sprog1 = new BitSet();
+            BitSet sprog2 = new BitSet();
             for (int pointIndex = 0; pointIndex < crossOverPoints.length - 1; pointIndex++) {
                 int startIndex = crossOverPoints[pointIndex];
                 int endIndex = crossOverPoints[pointIndex + 1];
@@ -62,14 +63,34 @@ public class Environment {
                 }
             }
             System.out.println("Crossed " + paLocation + " & " + maLocation);
-            sprog1.mutate(getMutateRate());
-            sprog2.mutate(getMutateRate());
+            sprog1 = mutate(sprog1, getMutateRate());
+            sprog2 = mutate(sprog2, getMutateRate());
             // Returns true when no more children can fit in
-            return pop.addChildAt(sprog1, paLocation) || pop.addChildAt(sprog2, maLocation);
+            return pop.addChildAt(new BitString(sprog1), paLocation) || pop.addChildAt(new BitString(sprog2), maLocation);
         } catch (Exception e) {
             System.out.println("Error : " + e.toString());
             return false;
         }
+    }
+
+    /**
+     * Mutates the bitString. The likelyhood of mutation
+     * will be specified by the user; Zero offers no mutation
+     * while one will flip every bit. Values inbetween will act
+     * accordingly on the string.
+     *
+     * @param mutateRate How likely a bit is to mutate.
+     */
+    private BitSet mutate(BitSet beforeMutation, final double mutateRate) {
+        BitSet mutated = new BitSet();
+        mutated.or(beforeMutation);
+        beforeMutation = null;
+        for (int bit = 0; bit < mutated.size(); bit++) {
+            if (mutateRate > Math.random()) {
+                mutated.flip(bit);
+            }
+        }
+        return mutated;
     }
 
     public void doBattle(Coord p1Location, Coord p2Location) {
@@ -85,8 +106,9 @@ public class Environment {
     public void populate(double fillRatio, double initialMutate) {
         for (int thisSlot = 0; thisSlot < pop.getArea(); thisSlot++) {
             if (fillRatio > Math.random()) {
-                GraphicalBitString newBits = new GraphicalBitString(getStringSize());
-                newBits.mutate(initialMutate);
+                BitSet solution = new BitSet(getStringSize());
+                solution = mutate(solution, initialMutate);
+                GraphicalBitString newBits = new GraphicalBitString(solution);
                 pop.put(pop.getCoords(thisSlot), newBits);
             }
         }

@@ -3,84 +3,33 @@ package com.danmidwood.danimals;
 import java.util.ArrayList;
 import java.util.BitSet;
 
-public class BitString extends BitSet {
-    double fitness = 0;
-    ArrayList scores = new ArrayList();
+public class BitString {
+    private final BitSet self;
+    private final ArrayList<Double> scores = new ArrayList<Double>();
 
+    public BitString(BitSet self) {
+        this.self = self;
 
-    public BitString(int size) {
-        super(size);
-    }
-
-    public void setBits(BitString newBits) {
-        System.out.println(doubleValue());
-        clear();
-        or(newBits);
-        System.out.println(doubleValue());
     }
 
     public String toString() {
-        String bitsAsString = new String();
-        for (int i = 0; i < this.size(); i++) {
-            if (get(i)) bitsAsString += "1";
-            else bitsAsString += "0";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < self.size(); i++) {
+            if (self.get(i)) stringBuilder.append("1");
+            else stringBuilder.append("0");
 
         }
-        return bitsAsString;
+        return stringBuilder.toString();
     }
 
 
-    /**
-     * addScore
-     * Add an achieved score. This will be used to calculate
-     * the fitness of the string.
-     *
-     * @param newScore The score to add
-     */
-    public void addScore(double newScore) {
-        scores.add(new Double(newScore));
-        setFitness();
+    public void addScore(Double newScore) {
+        scores.add(newScore);
     }
 
-    /**
-     * A method to set the fitness to the average of all
-     * currently achieved scores.
-     */
-    private void setFitness() {
-        double totalScore = 0;
-        for (int i = 0; i < scores.size(); i++) {
-            totalScore = totalScore + ((Double) scores.get(i)).doubleValue();
-        }
-        fitness = totalScore / scores.size();
 
-    }
-
-    /**
-     * Get the value of a section of the string.
-     *
-     * @param fromIndex index of the first bit to include.
-     * @param toIndex   index after the last bit to include.
-     * @return double The value of the specified bits.
-     */
-    public double doubleValue(int fromIndex, int toIndex) {
-        final double base = 2;
-        double total = 0;
-        for (int i = fromIndex; i < toIndex; i++) {
-            if (get(i)) {
-                int power = toIndex - 1 - i;
-                total = total + Math.pow(base, power);
-            }
-        }
-        return total;
-    }
-
-    /**
-     * Get the value of the whole string.
-     *
-     * @return The value of this com.danmidwood.danimals.BitString.
-     */
-    public double doubleValue() {
-        return doubleValue(0, this.size());
+    public BitSet getSubBitSet(int fromIndex, int toIndex) {
+        return self.get(fromIndex, toIndex);
     }
 
 
@@ -91,25 +40,15 @@ public class BitString extends BitSet {
      * @return The fitness.
      */
     public double getFitness() {
-        return fitness;
-    }
-
-
-    /**
-     * Mutates the bitString. The likelyhood of mutation
-     * will be specified by the user; Zero offers no mutation
-     * while one will flip every bit. Values inbetween will act
-     * accordingly on the string.
-     *
-     * @param mutateRate How likely a bit is to mutate.
-     */
-    public void mutate(double mutateRate) {
-        for (int bit = 0; bit < size(); bit++) {
-            if (mutateRate > Math.random()) {
-                flip(bit);
-            }
+        double totalScore = 0;
+        for (Double score : scores) {
+            totalScore = totalScore + score;
         }
+        return totalScore / scores.size();
     }
 
 
+    public BitSet getBits() {
+        return self;
+    }
 }

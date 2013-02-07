@@ -1,6 +1,7 @@
 package com.danmidwood.danimals.view;
 
 import com.danmidwood.danimals.BitString;
+import com.danmidwood.danimals.BitStringParser;
 import com.danmidwood.danimals.Rule;
 import com.danmidwood.danimals.Section;
 
@@ -123,7 +124,7 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
                             Rule thisRule = (Rule) rowType;
                             int toIndex = thisRule.getToIndex();
                             int fromIndex = thisRule.getFromIndex();
-                            double value = thisString.doubleValue(fromIndex, toIndex);
+                            long value = new BitStringParser().value(thisString.getSubBitSet(fromIndex, toIndex));
                             // If it is the first string then just reset the data, do not
                             // get the old data
                             if (processedStrings == 1) {
@@ -164,7 +165,7 @@ public class PopulationPanel extends JSplitPane implements CellSelectionListener
                 Rule thisRule = (Rule) rowType;
                 int toIndex = thisRule.getToIndex();
                 int fromIndex = thisRule.getFromIndex();
-                double value = thisString.doubleValue(fromIndex, toIndex);
+                long value = new BitStringParser().value(thisString.getSubBitSet(fromIndex, toIndex));
                 popInfo.setValueAt(value, rowNo, col);
             }
         }

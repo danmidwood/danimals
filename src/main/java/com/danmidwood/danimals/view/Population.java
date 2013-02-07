@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Population extends AbstractTableModel implements Cloneable, Map<Coord, Object> {
+public class Population extends AbstractTableModel implements Cloneable, Map<Coord, BitString> {
     EventListenerList listeners = new EventListenerList();
-    Map<Coord, Object> data; // Contains the bitStrings
+    Map<Coord, BitString> data; // Contains the bitStrings
     int rows;
     int cols;
     Object currentlySelected;
@@ -27,7 +27,7 @@ public class Population extends AbstractTableModel implements Cloneable, Map<Coo
     public Population(int rows, int cols) {
         this.cols = cols;
         this.rows = rows;
-        data = new HashMap(rows * cols);
+        data = new HashMap<Coord, BitString>(rows * cols);
         newData = new HashMap<Coord, Object>(rows * cols);
     }
 
@@ -40,7 +40,7 @@ public class Population extends AbstractTableModel implements Cloneable, Map<Coo
         this.cols = newPop.cols;
         this.rows = newPop.rows;
         this.currentlySelected = newPop.currentlySelected;
-        this.data = new HashMap<Coord, Object>(newPop.data);
+        this.data = new HashMap<Coord, BitString>(newPop.data);
     }
 
 
@@ -75,8 +75,12 @@ public class Population extends AbstractTableModel implements Cloneable, Map<Coo
         return getValueAt(new Coord(row, col));
     }
 
-    public Object getValueAt(Coord location) {
-        return get(location);
+    public BitString getValueAt(Coord location) {
+        BitString bitString = get(location);
+        if (bitString == null) {
+            System.out.print("null");
+        }
+        return bitString;
     }
 
 
@@ -90,10 +94,10 @@ public class Population extends AbstractTableModel implements Cloneable, Map<Coo
 
 
     public void setValueAt(Object newString, int row, int col) {
-        put(new Coord(row, col), newString);
+        put(new Coord(row, col), (BitString) newString);
     }
 
-    public boolean addChildAt(Object newString, Coord coords) {
+    public boolean addChildAt(BitString newString, Coord coords) {
         Coord newLocation = (Coord) coords.clone();
         while (newData.get(newLocation) != null) {
             int newRow = move(newLocation.getRow(), rows);
@@ -107,7 +111,7 @@ public class Population extends AbstractTableModel implements Cloneable, Map<Coo
     private boolean isItReady() {
         if (data.size() == newData.size()) {
             //noinspection unchecked
-            data = new HashMap<Coord, Object>((Map) newData.clone());
+            data = new HashMap<Coord, BitString>((Map) newData.clone());
             newData = new HashMap<Coord, Object>(rows * cols);
             TableModelEvent e = new TableModelEvent(this, 0, rows, TableModelEvent.ALL_COLUMNS, TableModelEvent.UPDATE);
             fireUpdate(e);
@@ -145,14 +149,12 @@ public class Population extends AbstractTableModel implements Cloneable, Map<Coo
     }
 
 
-    public Object get(Object key) {
+    public BitString get(Object key) {
         currentlySelected = key;
         Coord thisSec = (Coord) key;
-        Object bla = data.get(key);
-        if (bla instanceof BitString) {
-            java.awt.event.ActionEvent newSel = new java.awt.event.ActionEvent(bla, 0, "" + thisSec.getRow() + thisSec.getCol());
-            fireNewSelected(newSel);
-        }
+        BitString bla = data.get(key);
+        java.awt.event.ActionEvent newSel = new java.awt.event.ActionEvent(bla, 0, "" + thisSec.getRow() + thisSec.getCol());
+        fireNewSelected(newSel);
         return bla;
     }
 
@@ -176,16 +178,14 @@ public class Population extends AbstractTableModel implements Cloneable, Map<Coo
         return data.keySet();
     }
 
-    public Object put(Coord key, Object value) {
+    public BitString put(Coord key, BitString value) {
         Coord location = key;
         int row = location.getRow();
         int col = location.getCol();
-        BitString old = (BitString) get(key);
-        if (old != null) old.setBits((BitString) value);
-        else data.put(location, value);
+        BitString previousValue = data.put(location, value);
         TableModelEvent e = new TableModelEvent(this, row, row, col);
         fireUpdate(e);
-        return null;
+        return previousValue;
     }
 
     public void putAll(java.util.Map newData) {
@@ -193,7 +193,7 @@ public class Population extends AbstractTableModel implements Cloneable, Map<Coo
         data.putAll(newData);
     }
 
-    public Object remove(Object key) {
+    public BitString remove(Object key) {
         return data.remove(key);
     }
 
@@ -219,8 +219,8 @@ public class Population extends AbstractTableModel implements Cloneable, Map<Coo
         System.out.println(p1 + " vs " + p2);
         double p1Score = 0;
         double p2Score = 0;
-        BitString p1String = (BitString) get(p1);
-        BitString p2String = (BitString) get(p2);
+        BitString p1String = get(p1);
+        BitString p2String = get(p2);
         for (Object aHistory : history) {
             Result thisRound = (Result) aHistory;
             p1Score += thisRound.getScore(0);

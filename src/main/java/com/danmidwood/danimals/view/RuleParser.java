@@ -1,6 +1,7 @@
 package com.danmidwood.danimals.view;
 
 import com.danmidwood.danimals.BitString;
+import com.danmidwood.danimals.BitStringParser;
 import com.danmidwood.danimals.Clause;
 import com.danmidwood.danimals.Rule;
 
@@ -49,7 +50,7 @@ public class RuleParser implements javax.swing.ListModel {
                 // Get the com.danmidwood.danimals.Rule
                 Rule thisRule = rules.get(thisChoice).get(thisChoiceRuleIndex);
                 // Get the value of the section of the com.danmidwood.danimals.BitString specified in the rule
-                double valueFromBitString = thisString.doubleValue(thisRule.getFromIndex(), thisRule.getToIndex());
+                long valueFromBitString = new BitStringParser().value(thisString.getSubBitSet(thisRule.getFromIndex(), thisRule.getToIndex()));
                 // Get the value from the com.danmidwood.danimals.Rule and add it to the current choices probability of being chosen
                 probChoice[thisChoice] = probChoice[thisChoice] + thisRule.getValue(valueFromBitString, warSoFar, oppPlayer);
             }
