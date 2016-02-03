@@ -39,23 +39,23 @@ Get the source code with this command:
 
     git clone git@github.com:danmidwood/danimals.git
 
-The move into the source directory
-
-    cd danimals/src/java
-
 The compile the files with:
 
-    javac -source 1.4 danmidwood/danimals/Danimals.java
+    gradle build -x test
 
 This will produce a bunch of warnings, just ignore them and pretend that
 you never saw them, it's all completely fine™.
 
-This will output the class files in the same folder as the source code,
-probably just ignore that too.
+There are some tests included in the project but a couple of them fail,
+printing scary errors to the screen and overall being terrifying. By
+appending the `-x test` part to the command above, we can build the
+application without running the tests, enabling us to remain in our
+cloudy bubble of ignorance where everything is fine. I recommend it.
 
-Run the application with:
+The source code will be built and sprayed around the build/ folder,
+ignore it all and proceed to run the application with:
 
-    java danmidwood.danimals.Danimals
+    java -jar build/libs/danimals.jar
 
 This will popup a window like so,
 

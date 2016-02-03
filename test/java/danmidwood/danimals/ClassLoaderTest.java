@@ -36,7 +36,7 @@ public class ClassLoaderTest extends junit.framework.TestCase
     public void testLoad() {
         Class type = Selection.class;
         String dir = ".";
-        Class[] classes = ClassLoader.getClasses(type, dir);
+        Class[] classes = (Class[]) ClassLoader.getClasses(type, dir);
         for (int i=0; i<classes.length; i++) {
             System.out.println( classes[i].getName());
         }
