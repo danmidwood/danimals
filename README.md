@@ -39,9 +39,13 @@ Get the source code with this command:
 
     git clone git@github.com:danmidwood/danimals.git
 
+The move into the source directory
+
+    cd danimals/src/java
+
 The compile the files with:
 
-    javac -source 1.4 Danimals.java
+    javac -source 1.4 danmidwood/danimals/Danimals.java
 
 This will produce a bunch of warnings, just ignore them and pretend that
 you never saw them, it's all completely fine™.
@@ -51,7 +55,7 @@ probably just ignore that too.
 
 Run the application with:
 
-     java Danimals
+    java danmidwood.danimals.Danimals
 
 This will popup a window like so,
 
